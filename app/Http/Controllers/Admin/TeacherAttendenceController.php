@@ -13,9 +13,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use DataTables;
 class TeacherAttendenceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $today = date('N'); // Get the current day of the week as a number (1 = Monday, 7 = Sunday)
@@ -35,30 +32,19 @@ class TeacherAttendenceController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-       
+
                             $btn = '<button onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="'.$row->teacher_number .'" data-id="'.$row->id .'">تاخير</button>
                             <button onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absense" data-teacher_number="'.$row->teacher_number .'" data-id="'.$row->id .'">غياب</button>';
-      
+
                             return $btn;
                     })
                     ->rawColumns(['action'])
                     ->make(true);
         }
-          
+
         return view('Admin.teachers_attendence.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -79,38 +65,6 @@ class TeacherAttendenceController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'something went wrong');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 
     public function change_status(Request $request){
