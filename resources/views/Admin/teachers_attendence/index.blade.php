@@ -254,7 +254,8 @@
                 },
                 success: function (response) {
                     // Handle success response
-                    toastr.success('yassss')
+                    $(element).parent().find('button').prop('disabled', true);
+                    toastr.success('', 'Success');
                     console.log(response);
                 },
                 error: function (error) {

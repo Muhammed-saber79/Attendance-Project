@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DataTables;
+use App\Models\Absence;
+use App\Models\Teacher;
 use App\Models\Attendance;
 use App\Imports\DataImport;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Absence;
-use App\Models\Teacher;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
-use DataTables;
+
 class TeacherAttendenceController extends Controller
 {
     /**
@@ -29,22 +31,25 @@ class TeacherAttendenceController extends Controller
             6 => 'السبت',
             7 => 'الأحد',
         ];
-        $data = Attendance::where('day',$daysOfWeek[$today])->get();
+        $data = Attendance::where('day', $daysOfWeek[$today])->get();
 
         if ($request->ajax()) {
             return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-       
-                            $btn = '<button onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="'.$row->teacher_number .'" data-id="'.$row->id .'">تاخير</button>
-                            <button onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absense" data-teacher_number="'.$row->teacher_number .'" data-id="'.$row->id .'">غياب</button>';
-      
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $value = '';
+                    if (Absence::where('teacher_number', $row->teacher_number)->where('attendence_id', $row->id)->whereDate('created_at', Date::now()->format('Y-m-d'))->first()) {
+                        $value = 'disabled';
+                    }
+                    $btn = '<button ' . $value . ' onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">تاخير</button>
+                            <button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absense" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">غياب</button>';
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
-          
+
         return view('Admin.teachers_attendence.index');
     }
 
@@ -113,14 +118,19 @@ class TeacherAttendenceController extends Controller
         //
     }
 
-    public function change_status(Request $request){
-        $teacher = Teacher::where('number',$request->teacher_number)->first();
-        Absence::create([
-            'attendence_id'=>$request->id ,
-            'status'=>$request->type ,
-            'teacher_id'=>$teacher->id ,
-            'teacher_number'=>$request ->teacher_number
-        ]);
-    return true ;
+    public function change_status(Request $request)
+    {
+        $teacher = Teacher::where('number', $request->teacher_number)->first();
+        if (!Absence::where('teacher_id', $teacher->id)->where('attendence_id', $request->id)->whereDate('created_at', now()->format('Y-m-d'))->first()) {
+            Absence::create([
+                'attendence_id' => $request->id,
+                'status' => $request->type,
+                'teacher_id' => $teacher->id,
+                'teacher_number' => $request->teacher_number
+            ]);
+        }
+
+        $data = ['meassage' => 'تم تسجيل حالة المدرس بنجاح'];
+        return response()->json($data);
     }
 }
