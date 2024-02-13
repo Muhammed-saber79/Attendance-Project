@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\TeacherAttendenceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\EmployeesController;
 use App\Http\Controllers\Admin\EmployeesAbsenceController;
+use App\Http\Controllers\Admin\TeachersController;
+use App\Http\Controllers\Admin\TeacherStatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,11 +43,15 @@ Route::group([
         'middleware' => ['role:Admin']
     ], function () {
         Route::resource('teacher_attendence',TeacherAttendenceController::class);
+        Route::resource('teachers',TeachersController::class);
         Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
         Route::get('/employees', [EmployeesController::class, 'index'])->name('employees.index');
         Route::post('/employees/store', [EmployeesController::class, 'store'])->name('employees.store');
         Route::put('/employees/update/{id}', [EmployeesController::class, 'update'])->name('employees.update');
         Route::delete('/employees/destroy/{id}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
+
+        Route::get('teacher_absense',[TeacherStatusController::class,'absense'])->name('teachers_absense');
+        Route::get('teacher_delay',[TeacherStatusController::class,'delay'])->name('teachers_delay');
     });
 
     Route::group([

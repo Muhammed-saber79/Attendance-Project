@@ -19,6 +19,8 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/app-light.css') }}" id="lightTheme" disabled>
     <link rel="stylesheet" href="{{ asset('assets/css/app-dark.css') }}" id="darkTheme">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <!-- <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
@@ -108,7 +110,7 @@
                         </a>
                         <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
                             <li class="nav-item">
-                                <a class="nav-link pl-3" href="./instructors.html"><span class="ml-1 item-text">قائمة المدرسين</span>
+                                <a class="nav-link pl-3" href="{{route('admin.teachers.index')}}"><span class="ml-1 item-text">قائمة المدرسين</span>
                                 </a>
                             </li>
                         </ul>
@@ -150,26 +152,6 @@
                     </li>
                     <!-- End Of Attendance Table -->
 
-<<<<<<< HEAD
-                    <li class="nav-item dropdown">
-                        <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                            <i class="fe fe-archive fe-16"></i>
-                            <span class="ml-3 item-text">المعاملات</span>
-                        </a>
-                        <ul class="collapse list-unstyled pl-4 w-100" id="tables">
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">المدرسين (غياب وتأخير)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">الإداريين (غياب وتأخير)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="./sent-emails.html"><span class="ml-1 item-text">أرشيف المعاملات</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- End Of Archive -->
-=======
                         <li class="nav-item dropdown">
                             <a href="#teachers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                 <i class="fe fe-archive fe-16"></i>
@@ -177,10 +159,10 @@
                             </a>
                             <ul class="collapse list-unstyled pl-4 w-100" id="teachers">
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">الغياب</span></a>
+                                    <a class="nav-link pl-3" href="{{route('admin.teachers_absense')}}"><span class="ml-1 item-text">الغياب</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">التأخير</span></a>
+                                    <a class="nav-link pl-3" href="{{route('admin.teachers_delay')}}"><span class="ml-1 item-text">التأخير</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="./sent-emails.html"><span class="ml-1 item-text">أرشيف المعاملات</span></a>
@@ -207,25 +189,8 @@
                             </ul>
                         </li>
                         <!-- End Of Archive -->
->>>>>>> 551db68ae0fe0a65e9b08fb3e318fe439f17822c
 
-                    <li class="nav-item dropdown">
-                        <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                            <i class="fe fe-archive fe-16"></i>
-                            <span class="ml-3 item-text">معاملات المدرسين</span>
-                        </a>
-                        <ul class="collapse list-unstyled pl-4 w-100" id="tables">
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">غياب</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">تاخير</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="./sent-emails.html"><span class="ml-1 item-text">أرشيف المعاملات</span></a>
-                            </li>
-                        </ul>
-                    </li>
+        
 
                     <li class="nav-item dropdown">
                         <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -291,6 +256,7 @@
     <script src="{{ asset('assets/js/datamaps-zoomto.js') }}"></script>
     <script src="{{ asset('assets/js/datamaps.custom.js') }}"></script>
     <script src="{{ asset('assets/js/Chart.min.js') }}"></script>
+
     <script>
         /* defind global options */
         Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
@@ -317,6 +283,15 @@
 
 <!-- Load DataTables Bootstrap 5 Integration -->
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<!-- jQuery -->
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     @yield('scripts')
 </body>
