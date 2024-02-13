@@ -48,4 +48,11 @@ Route::group([
     ], function () {
 
     });
+
+    Route::group([
+        'prefix' => '/employees-absence',
+        'as' => 'employees-absence.'
+    ], function () {
+
+    });
 });

@@ -14,4 +14,9 @@ class Employee extends Model implements HasMedia
     protected $fillable = [
         'number', 'name', 'department', 'phone', 'email'
     ];
+
+    public function absence()
+    {
+        return $this->hasMany(EmployeeAbsence::class);
+    }
 }
