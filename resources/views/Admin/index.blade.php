@@ -33,16 +33,14 @@
                     <!-- widgets -->
                     <div class="row my-4">
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow mb-4">
                                 <div class="card-body bg-danger">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="text-muted mb-1">الغياب</small>
-                                            <h3 class="card-title mb-0">11</h3>
-                                            <p class="small text-muted mb-0"><span
-                                                    class="fe fe-arrow-down fe-12 text-danger"></span><span>-18.9% الأسبوع الماضي</span>
-                                            </p>
+                                            <small class="text-muted mb-1">غياب المدربين</small>
+                                            <h3 class="card-title mb-0">{{App\Models\Absence::where('status','absense')->count()}}</h3>
+                                           
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlineline"></span>
@@ -52,16 +50,14 @@
                             </div> <!-- /. card -->
                         </div> <!-- /. col -->
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow mb-4">
                                 <div class="card-body bg-warning">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="mb-1">التأخير</small>
-                                            <h3 class="card-title mb-0">68</h3>
-                                            <p class="small mb-0"><span
-                                                    class="fe fe-arrow-up fe-12 text-warning"></span><span>+1.9% الأسبوع الماضي</span>
-                                            </p>
+                                            <small class="mb-1">تاخير المتدربين</small>
+                                            <h3 class="card-title mb-0">{{App\Models\Absence::where('status','delay')->count()}}</h3>
+                                            
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlinepie"></span>
@@ -71,16 +67,14 @@
                             </div> <!-- /. card -->
                         </div> <!-- /. col -->
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow mb-4">
                                 <div class="card-body bg-primary">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="mb-1">مدرب بلا متدربين</small>
+                                            <small class="mb-1">  غياب الاداريين</small>
                                             <h3 class="card-title mb-0">108</h3>
-                                            <p class="small mb-0"><span
-                                                    class="fe fe-arrow-up fe-12 text-success"></span><span>37.7% الأسبوع الماضي</span>
-                                            </p>
+                                            
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlinebar"></span>
@@ -90,16 +84,14 @@
                             </div> <!-- /. card -->
                         </div> <!-- /. col -->
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card shadow mb-4">
                                 <div class="card-body bg-info">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="text-muted mb-1">غياب المتدربين</small>
+                                            <small class="text-muted mb-1">تاخر الاداريين</small>
                                             <h3 class="card-title mb-0">108</h3>
-                                            <p class="small text-muted mb-0"><span
-                                                    class="fe fe-arrow-up fe-12 text-success"></span><span>37.7% الأسبوع الماضي</span>
-                                            </p>
+                                            
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlinebar"></span>
@@ -109,24 +101,7 @@
                             </div> <!-- /. card -->
                         </div> <!-- /. col -->
 
-                        <div class="col-md-4">
-                            <div class="card shadow mb-4">
-                                <div class="card-body bg-secondary">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <small class="text-muted mb-1">تغيير القاعة</small>
-                                            <h3 class="card-title mb-0">108</h3>
-                                            <p class="small text-muted mb-0"><span
-                                                    class="fe fe-arrow-up fe-12 text-success"></span><span>37.7% الأسبوع الماضي</span>
-                                            </p>
-                                        </div>
-                                        <div class="col-4 text-right">
-                                            <span class="sparkline inlinebar"></span>
-                                        </div>
-                                    </div> <!-- /. row -->
-                                </div> <!-- /. card-body -->
-                            </div> <!-- /. card -->
-                        </div> <!-- /. col -->
+                 
 
 
                     </div> <!-- end section -->

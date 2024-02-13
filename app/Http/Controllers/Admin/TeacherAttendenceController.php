@@ -113,9 +113,21 @@ class TeacherAttendenceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        // Attendance::truncate();
+        Teacher::truncate();
+        // Absence::truncate();
+        return 'ddddd';
+    }
+    public function delete_all(){
+        // Attendance::truncate();
+        $teachers = Teacher::all();
+        foreach($teachers as $teacher){
+            $teacher->delete();
+        }
+        // Absence::truncate();
+        return back()->with('success','تم حذف البيانات بنجاح');
     }
 
     public function change_status(Request $request)

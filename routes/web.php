@@ -42,6 +42,7 @@ Route::group([
     ], function () {
 
         Route::resource('teacher_attendence',TeacherAttendenceController::class);
+        Route::get('delete_all',[TeacherAttendenceController::class,'delete_all'])->name('delete_all');
         Route::resource('teachers',TeachersController::class);
         Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
         Route::get('/employees', [EmployeesController::class, 'index'])->name('employees.index');

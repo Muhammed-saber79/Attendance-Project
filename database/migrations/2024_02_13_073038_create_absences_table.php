@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('status');
             $table->boolean('is_replied')->default(0);
             $table->unsignedBigInteger('attendence_id')->nullable();
-            $table->foreign('attendence_id')->references('id')->on('attendances') ;
+            $table->foreign('attendence_id')->references('id')->on('attendances')->cascadeOnDelete()->cascadeOnUpdate() ;
             $table->timestamps();
         });
     }
