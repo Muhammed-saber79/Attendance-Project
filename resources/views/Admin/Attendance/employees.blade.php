@@ -17,65 +17,33 @@
                                 <div class="card-body">
                                     <table class="table" id="attendanceTable">
                                         <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>تاريخ الحضور</th>
-                                            <th>رقم المدرس</th>
-                                            <th>حالة الحضور</th>
-                                            <th>الإجراء</th>
-                                        </tr>
+                                            <tr>
+                                                <th>رقم الموظف</th>
+                                                <th>الاسم</th>
+                                                <th>الإدارة التابع لها</th>
+                                                <th>الهاتف</th>
+                                                <th>البريد الإلكتروني</th>
+                                                <th>الصورة الشخصية</th>
+                                                <th>الإجراء</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>2024-01-25</td>
-                                            <td>101</td>
-                                            <td>حاضر</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-success">تأكيد</button>
-                                                <button class="btn btn-sm btn-danger">غياب</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>2024-01-25</td>
-                                            <td>202</td>
-                                            <td>حاضر</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-success">تأكيد</button>
-                                                <button class="btn btn-sm btn-danger">غياب</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>2024-01-25</td>
-                                            <td>303</td>
-                                            <td>غياب</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-success">تأكيد</button>
-                                                <button class="btn btn-sm btn-danger">غياب</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>2024-01-25</td>
-                                            <td>404</td>
-                                            <td>حاضر</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-success">تأكيد</button>
-                                                <button class="btn btn-sm btn-danger">غياب</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>2024-01-25</td>
-                                            <td>505</td>
-                                            <td>غياب</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-success">تأكيد</button>
-                                                <button class="btn btn-sm btn-danger">غياب</button>
-                                            </td>
-                                        </tr>
+                                            @foreach($employees as $employee)
+                                                <tr>
+                                                    <td>{{ @$employee->number }}</td>
+                                                    <td>{{ @$employee->name }}</td>
+                                                    <td>{{ @$employee->department }}</td>
+                                                    <td>{{ @$employee->phone }}</td>
+                                                    <td>{{ @$employee->email }}</td>
+                                                    <td>
+                                                        <img src="{{ @$employee->getFirstMediaUrl('image', 'thumb') }}" width="75px" alt="صورة الموظف">
+                                                    </td>
+                                                    <td>
+                                                        <button onclick="change_status(this)" class="btn btn-sm btn-warning change_status" data-type="late" data-employee_number="{{ @$employee->number }}" data-id="{{ @$employee->id }}">تاخير</button>
+                                                        <button onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absent" data-employee_number="{{ @$employee->number }}" data-id="{{ @$employee->id }}">غياب</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -210,4 +178,31 @@
             </div>
         </div>
     </main> <!-- main -->
+@endsection
+
+@section('scripts')
+    <script>
+        function change_status(element){
+            let dataType = $(element).data('type');
+            let dataId = $(element).data('id');
+            let employee_number = $(element).data('employee_number');
+
+            $.ajax({
+                type: 'GET',
+                url: '/admin/employees-attendance/change_status',
+                data: {
+                    type: dataType,
+                    id: dataId,
+                    employee_number:employee_number
+                },
+                success: function (response) {
+                    $(element).parent().find('button').attr('disabled', 'disabled');
+                    toastr.success('', 'Success');
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+    </script>
 @endsection

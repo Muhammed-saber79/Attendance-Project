@@ -1,4 +1,5 @@
-@extends('layouts.admin')
+@extends('Layouts.admin')
+
 @section('content')
 <main role="main" class="main-content">
   <div class="container-fluid">
@@ -31,7 +32,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    
+
                   </tbody>
                 </table>
               </div>
@@ -231,13 +232,13 @@
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
-      
+
   });
 </script>
 <script>
- 
 
-        
+
+
            function change_status(element){
             var dataType = $(element).data('type');
             var dataId = $(element).data('id');
@@ -264,7 +265,7 @@
                 }
             });
           }
-          
+
 
 
 </script>

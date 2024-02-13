@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\EmployeesAttendanceController;
+use App\Http\Controllers\Admin\MessagesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TeacherAttendenceController;
@@ -38,12 +39,12 @@ Route::group([
     'middleware' => ['auth', 'role:Admin,User']
 ], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::resource('teacher_attendence',TeacherAttendenceController::class);
+    Route::resource('teachers',TeachersController::class);
 
     Route::group([
         'middleware' => ['role:Admin']
     ], function () {
-        Route::resource('teacher_attendence',TeacherAttendenceController::class);
-        Route::resource('teachers',TeachersController::class);
         Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
         Route::get('/employees', [EmployeesController::class, 'index'])->name('employees.index');
         Route::post('/employees/store', [EmployeesController::class, 'store'])->name('employees.store');
@@ -55,15 +56,28 @@ Route::group([
     });
 
     Route::group([
-        'middleware' => ['role:User']
+        'prefix' => '/employees-attendance',
+        'as' => 'employees-attendance.'
     ], function () {
-
+        Route::get('/', [EmployeesAttendanceController::class, 'index'])->name('index');
+        Route::get('change_status',[EmployeesAttendanceController::class,'change_status']);
     });
 
     Route::group([
-        'prefix' => '/employees-absence',
+        'prefix' => '/employees',
         'as' => 'employees-absence.'
     ], function () {
-        Route::get('/', [EmployeesAttendanceController::class, 'index'])->name('index');
+        Route::get('/absence', [EmployeesAbsenceController::class, 'absence'])->name('absence');
+        Route::get('/late',[EmployeesAbsenceController::class,'late'])->name('late');
+    });
+
+    Route::group([
+        'prefix' => '/messages',
+        'as' => 'messages.'
+    ], function () {
+        Route::post('/teacher/notify/{id}', [MessagesController::class, 'notifyTeacher'])->name('notifyTeacher');
+        Route::post('/teacher/decide/{id}', [MessagesController::class, 'notifyTeacher'])->name('decideTeacher');
+        Route::post('/employee/notify/{id}', [MessagesController::class, 'notifyEmployee'])->name('notifyEmployee');
+        Route::post('/employee/decide/{id}', [MessagesController::class, 'notifyEmployee'])->name('decideEmployee');
     });
 });

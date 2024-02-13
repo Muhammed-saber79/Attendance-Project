@@ -93,7 +93,7 @@
                 </div>
                 <ul class="navbar-nav flex-fill w-100 mb-2">
                     <li class="nav-item dropdown">
-                        <a href="./dashboard.html" class="nav-link">
+                        <a href="{{ route('admin.home') }}" class="nav-link">
                             <i class="fe fe-home fe-16"></i>
                             <span class="ml-3 item-text">لوحة التحكم</span><span class="sr-only">(current)</span>
                         </a>
@@ -117,6 +117,7 @@
                     </li>
                     <!-- End Of Instructors -->
 
+                    @if(Auth::user()->role_id == '1')
                         <li class="nav-item dropdown">
                             <a href="#employees" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                 <i class="fe fe-users fe-16"></i>
@@ -133,6 +134,7 @@
                             </ul>
                         </li>
                         <!-- End Of Employees -->
+                    @endif
 
                     <li class="nav-item dropdown">
                         <a href="#attendance" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -145,13 +147,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link pl-3" href="./attendance.html"><span class="ml-1 item-text">تحضير الإداريين</span>
+                                <a class="nav-link pl-3" href="{{ route('admin.employees-attendance.index') }}"><span class="ml-1 item-text">تحضير الإداريين</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <!-- End Of Attendance Table -->
 
+                    @if(Auth::user()->role_id == '1')
                         <li class="nav-item dropdown">
                             <a href="#teachers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                 <i class="fe fe-archive fe-16"></i>
@@ -165,7 +168,7 @@
                                     <a class="nav-link pl-3" href="{{route('admin.teachers_delay')}}"><span class="ml-1 item-text">التأخير</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="./sent-emails.html"><span class="ml-1 item-text">أرشيف المعاملات</span></a>
+                                    <a class="nav-link pl-3" href=""><span class="ml-1 item-text">أرشيف المعاملات</span></a>
                                 </li>
                             </ul>
                         </li>
@@ -178,51 +181,18 @@
                             </a>
                             <ul class="collapse list-unstyled pl-4 w-100" id="employees-absence">
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">الغياب</span></a>
+                                    <a class="nav-link pl-3" href="{{ route('admin.employees-absence.absence') }}"><span class="ml-1 item-text">الغياب</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">التأخير</span></a>
+                                    <a class="nav-link pl-3" href="{{ route('admin.employees-absence.late') }}"><span class="ml-1 item-text">التأخير</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="./sent-emails.html"><span class="ml-1 item-text">أرشيف المعاملات</span></a>
+                                    <a class="nav-link pl-3" href=""><span class="ml-1 item-text">أرشيف المعاملات</span></a>
                                 </li>
                             </ul>
                         </li>
                         <!-- End Of Archive -->
-
-        
-
-                    <li class="nav-item dropdown">
-                        <a href="#charts" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                            <i class="fe fe-folder fe-16"></i>
-                            <span class="ml-3 item-text">نماذج الإشعارات</span>
-                        </a>
-                        <ul class="collapse list-unstyled pl-4 w-100" id="charts">
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="./email-templates.html"><span class="ml-1 item-text">قائمة النماذج المتاحة بالنطام</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">إضافة نموذج جديد</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- End Of Email Templates -->
-
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="./days.html">
-                            <i class="fe fe-calendar fe-16"></i>
-                            <span class="ml-3 item-text">جدول الأيام</span>
-                        </a>
-                    </li>
-                    <!-- End Of Calender -->
-
-                    <li class="nav-item w-100">
-                        <a class="nav-link" href="./profile-settings.html">
-                            <i class="fe fe-settings fe-16"></i>
-                            <span class="ml-3 item-text">إعدادات الملف الشخصي</span>
-                        </a>
-                    </li>
-                    <!-- End Of Calender -->
+                    @endif
 
                     <li class="nav-item w-100">
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout').submit()">

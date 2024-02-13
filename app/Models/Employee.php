@@ -19,4 +19,9 @@ class Employee extends Model implements HasMedia
     {
         return $this->hasMany(EmployeeAbsence::class);
     }
+
+    public function messages()
+    {
+        return $this->morphMany(Messages::class, 'messageable');
+    }
 }
