@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TeacherAttendenceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\EmployeesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,10 @@ Route::group([
 
         Route::resource('teacher_attendence',TeacherAttendenceController::class);
         Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
+        Route::get('/employees', [EmployeesController::class, 'index'])->name('employees.index');
+        Route::post('/employees/store', [EmployeesController::class, 'store'])->name('employees.store');
+        Route::put('/employees/update/{id}', [EmployeesController::class, 'update'])->name('employees.update');
+        Route::delete('/employees/destroy/{id}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
     });
 
     Route::group([

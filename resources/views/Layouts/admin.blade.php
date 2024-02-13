@@ -115,22 +115,22 @@
                     </li>
                     <!-- End Of Instructors -->
 
-                    <li class="nav-item dropdown">
-                        <a href="#employees" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
-                            <i class="fe fe-users fe-16"></i>
-                            <span class="ml-3 item-text">الإداريين</span>
-                        </a>
-                        <ul class="collapse list-unstyled pl-4 w-100" id="employees">
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="./instructors.html"><span class="ml-1 item-text">قائمة الإداريين</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">إضافة إداري جديد</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- End Of Employees -->
+                        <li class="nav-item dropdown">
+                            <a href="#employees" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-users fe-16"></i>
+                                <span class="ml-3 item-text">الإداريين</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="employees">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="{{ route('admin.employees.index') }}"><span class="ml-1 item-text">قائمة الإداريين</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">إضافة إداري جديد</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- End Of Employees -->
 
                     <li class="nav-item dropdown">
                         <a href="#attendance" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
@@ -150,6 +150,7 @@
                     </li>
                     <!-- End Of Attendance Table -->
 
+<<<<<<< HEAD
                     <li class="nav-item dropdown">
                         <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                             <i class="fe fe-archive fe-16"></i>
@@ -168,6 +169,45 @@
                         </ul>
                     </li>
                     <!-- End Of Archive -->
+=======
+                        <li class="nav-item dropdown">
+                            <a href="#teachers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-archive fe-16"></i>
+                                <span class="ml-3 item-text">معاملات المدرسين</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="teachers">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">الغياب</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">التأخير</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./sent-emails.html"><span class="ml-1 item-text">أرشيف المعاملات</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- End Of Archive -->
+
+                        <li class="nav-item dropdown">
+                            <a href="#employees-absence" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-archive fe-16"></i>
+                                <span class="ml-3 item-text">معاملات الإداريين</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="employees-absence">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">الغياب</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">التأخير</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./sent-emails.html"><span class="ml-1 item-text">أرشيف المعاملات</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- End Of Archive -->
+>>>>>>> 551db68ae0fe0a65e9b08fb3e318fe439f17822c
 
                     <li class="nav-item dropdown">
                         <a href="#tables" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
