@@ -128,9 +128,6 @@
                                     <a class="nav-link pl-3" href="{{ route('admin.employees.index') }}"><span class="ml-1 item-text">قائمة الإداريين</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link pl-3" href="#"><span class="ml-1 item-text">إضافة إداري جديد</span></a>
-                                </li>
                             </ul>
                         </li>
                         <!-- End Of Employees -->

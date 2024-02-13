@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('teacher_name')->nullable();
             $table->string('teacher_number')->nullable();
+            $table->foreign('teacher_number')->references('number')->on('teachers')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->string('department')->nullable();
             $table->string('building')->nullable();
             $table->string('room')->nullable();

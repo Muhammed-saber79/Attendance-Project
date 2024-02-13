@@ -45,6 +45,7 @@ Route::group([
     Route::group([
         'middleware' => ['role:Admin']
     ], function () {
+        Route::get('delete_all',[TeacherAttendenceController::class,'delete_all'])->name('delete_all');
         Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
         Route::get('/employees', [EmployeesController::class, 'index'])->name('employees.index');
         Route::post('/employees/store', [EmployeesController::class, 'store'])->name('employees.store');
