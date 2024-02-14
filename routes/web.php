@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\EmployeesAttendanceController;
 use App\Http\Controllers\Admin\MessagesController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TeacherAttendenceController;
@@ -38,7 +39,17 @@ Route::group([
     'as' => 'admin.',
     'middleware' => ['auth', 'role:Admin,User']
 ], function() {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/', function () {
+        $pdf = PDF::loadView('Messages.notification')
+            ->setPaper('a4', 'portrait');
+
+        $pdf->setOptions(['isPhpEnabled' => true]);
+        $pdf->getDomPDF()->setHttpContext([
+            'Arabic' => ['UTF-8', 'rtl']
+        ]);
+
+        return $pdf->stream();
+    })->name('home');//[HomeController::class, 'index'])->name('home');
     Route::resource('teacher_attendence',TeacherAttendenceController::class);
     Route::resource('teachers',TeachersController::class);
 

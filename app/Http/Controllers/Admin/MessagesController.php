@@ -9,6 +9,7 @@ use App\Models\EmployeeAbsence;
 use App\Models\Messages;
 use App\Models\Teacher;
 use App\Services\EmailService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -113,5 +114,22 @@ class MessagesController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'حدث خطأ اثناء الإرسال, حاول مجددا لاحقا!');
         }
+    }
+
+    public function viewPDF($file, $data)
+    {
+        $pdf = PDF::loadView('Messages.usersdetails', array('data' =>  $data))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream();
+
+    }
+
+    public function downloadPDF($file, $data)
+    {
+        $pdf = PDF::loadView('pdf.usersdetails',  array('data' =>  $data))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('details.pdf');
     }
 }
