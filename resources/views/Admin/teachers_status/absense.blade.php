@@ -4,7 +4,7 @@
         <div class="container-fluid">
           <div class="row justify-content-center">
             <div class="col-12">
-                <h2 class="mb-2 page-title">جدول غياب المدرسين </h2>
+                <h2 class="mb-2 page-title">جدول غياب المدربين </h2>
                 <div class="row my-4">
                     <div class="col-md-12">
                         <div class="card shadow">
@@ -13,7 +13,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>اسم المدرس</th>
+                                            <th>اسم المدرب</th>
                                             <th>اسم المادة </th>
                                             <th> القسم </th>
                                             <th>تاريخ الغياب</th>

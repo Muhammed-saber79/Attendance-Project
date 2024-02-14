@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
       <div class="col-12">
         <h2 class="mb-2 page-title">جدول الحضور اليومي</h2>
-        <p class="card-text">جدول لتسجيل حضور المدرسين يومياً</p>
+        <p class="card-text">جدول لتسجيل حضور المدربين يومياً</p>
         <div class="row my-4">
           <div class="col-md-12">
 
@@ -299,44 +299,10 @@
   });
 </script>
 <script>
-<<<<<<< HEAD
-
-
-
-           function change_status(element){
-            var dataType = $(element).data('type');
-            var dataId = $(element).data('id');
-            var teacher_number = $(element).data('teacher_number');
-
-            // Make an AJAX call to the Laravel backend
-            $.ajax({
-                type: 'GET',
-                url: '/admin/change_status', // Replace with your actual Laravel backend endpoint
-                data: {
-                    type: dataType,
-                    id: dataId,
-                    teacher_number:teacher_number
-                },
-                success: function (response) {
-                    // Handle success response
-                    $(element).parent().find('button').prop('disabled', true);
-                    toastr.success('', 'Success');
-                    console.log(response);
-                },
-                error: function (error) {
-                    // Handle error
-                    console.error(error);
-                }
-            });
-          }
-
-
-=======
   function change_status(element) {
     var dataType = $(element).data('type');
     var dataId = $(element).data('id');
     var teacher_number = $(element).data('teacher_number');
->>>>>>> 61cabe8574e3a964355000216ea24481016c365b
 
     // Make an AJAX call to the Laravel backend
     $.ajax({

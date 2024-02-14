@@ -22,7 +22,7 @@ class EmployeesAttendanceController extends Controller
             EmployeeAbsence::create([
                 'status' => $request->type,
                 'employee_id' => $employee->id,
-                'employee_number' => $request->employee_number
+                'employee_number' => $request->employee_number 
             ]);
         }
 

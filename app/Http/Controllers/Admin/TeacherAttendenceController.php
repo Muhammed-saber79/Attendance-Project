@@ -38,7 +38,8 @@ class TeacherAttendenceController extends Controller
                     if (Absence::where('teacher_number', $row->teacher_number)->where('attendence_id', $row->id)->whereDate('created_at', Date::now()->format('Y-m-d'))->first()) {
                         $value = 'disabled';
                     }
-                    $btn = '<button ' . $value . ' onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">تاخير</button>
+                    $btn = '<button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-success change_status" data-type="attend" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">حضور</button>
+                            <button ' . $value . ' onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">تاخير</button>
                             <button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absense" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">غياب</button>';
 
                     return $btn;
@@ -128,7 +129,7 @@ class TeacherAttendenceController extends Controller
             ]);
         }
 
-        $data = ['meassage' => 'تم تسجيل حالة المدرس بنجاح'];
+        $data = ['meassage' => 'تم تسجيل حالة المدرب بنجاح'];
         return response()->json($data);
     }
 }

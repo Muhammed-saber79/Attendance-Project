@@ -52,6 +52,7 @@ Route::group([
         Route::put('/employees/update/{id}', [EmployeesController::class, 'update'])->name('employees.update');
         Route::delete('/employees/destroy/{id}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
 
+        Route::get('teachers_attend',[TeacherStatusController::class,'attend'])->name('teachers_attend');
         Route::get('teacher_absense',[TeacherStatusController::class,'absense'])->name('teachers_absense');
         Route::get('teacher_delay',[TeacherStatusController::class,'delay'])->name('teachers_delay');
     });
@@ -68,6 +69,7 @@ Route::group([
         'prefix' => '/employees',
         'as' => 'employees-absence.'
     ], function () {
+        Route::get('/attend', [EmployeesAbsenceController::class, 'attend'])->name('attend');
         Route::get('/absence', [EmployeesAbsenceController::class, 'absence'])->name('absence');
         Route::get('/late',[EmployeesAbsenceController::class,'late'])->name('late');
     });
