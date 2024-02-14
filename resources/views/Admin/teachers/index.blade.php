@@ -4,7 +4,7 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2 class="mb-2 page-title">جدول المدرسين </h2>
+        <h2 class="mb-2 page-title">جدول المدربين </h2>
         <div class="row my-4">
           <div class="col-md-12">
 
@@ -44,7 +44,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addTemplateModalLabel">تعديل بيانات المدرس </h5>
+          <h5 class="modal-title" id="addTemplateModalLabel">تعديل بيانات المدرب </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

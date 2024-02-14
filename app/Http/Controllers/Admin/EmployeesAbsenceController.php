@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class EmployeesAbsenceController extends Controller
 {
+    public function attend()
+    {
+        $attendEmployees = EmployeeAbsence::where('status', 'attend')->with(['employee'])->paginate();
+        return view('Admin.Employees.attend', compact('attendEmployees'));
+    }
     public function absence()
     {
         $absentEmployees = EmployeeAbsence::where('status', 'absent')->with(['employee'])->paginate();

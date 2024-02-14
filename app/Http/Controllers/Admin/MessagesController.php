@@ -48,7 +48,7 @@ class MessagesController extends Controller
 
             // Mail Service
             if (!$teacher->email) {
-                return redirect()->back()->with('error', 'لا يوجد بريد الكتروني خاص بهذا المدرس, يرجى تحديث بياناته للتمكن من ارسال الاشعارات!');
+                return redirect()->back()->with('error', 'لا يوجد بريد الكتروني خاص بهذا المدرب, يرجى تحديث بياناته للتمكن من ارسال الاشعارات!');
             }
             $data = [
                 'email' => $teacher->email,

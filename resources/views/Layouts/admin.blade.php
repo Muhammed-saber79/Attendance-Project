@@ -106,11 +106,11 @@
                     <li class="nav-item dropdown">
                         <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                             <i class="fe fe-users fe-16"></i>
-                            <span class="ml-3 item-text">المدرسين</span>
+                            <span class="ml-3 item-text">المدربين</span>
                         </a>
                         <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
                             <li class="nav-item">
-                                <a class="nav-link pl-3" href="{{route('admin.teachers.index')}}"><span class="ml-1 item-text">قائمة المدرسين</span>
+                                <a class="nav-link pl-3" href="{{route('admin.teachers.index')}}"><span class="ml-1 item-text">قائمة المدربين</span>
                                 </a>
                             </li>
                         </ul>
@@ -140,7 +140,7 @@
                         </a>
                         <ul class="collapse list-unstyled pl-4 w-100" id="attendance">
                             <li class="nav-item">
-                                <a class="nav-link pl-3" href="{{route('admin.teacher_attendence.index')}}"><span class="ml-1 item-text">تحضير المدرسين</span>
+                                <a class="nav-link pl-3" href="{{route('admin.teacher_attendence.index')}}"><span class="ml-1 item-text">تحضير المدربين</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -155,18 +155,21 @@
                         <li class="nav-item dropdown">
                             <a href="#teachers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
                                 <i class="fe fe-archive fe-16"></i>
-                                <span class="ml-3 item-text">معاملات المدرسين</span>
+                                <span class="ml-3 item-text">معاملات المدربين</span>
                             </a>
                             <ul class="collapse list-unstyled pl-4 w-100" id="teachers">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="{{route('admin.teachers_attend')}}"><span class="ml-1 item-text">الحضور</span></a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="{{route('admin.teachers_absense')}}"><span class="ml-1 item-text">الغياب</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="{{route('admin.teachers_delay')}}"><span class="ml-1 item-text">التأخير</span></a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link pl-3" href=""><span class="ml-1 item-text">أرشيف المعاملات</span></a>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                         <!-- End Of Archive -->
@@ -177,6 +180,9 @@
                                 <span class="ml-3 item-text">معاملات الإداريين</span>
                             </a>
                             <ul class="collapse list-unstyled pl-4 w-100" id="employees-absence">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="{{ route('admin.employees-absence.attend') }}"><span class="ml-1 item-text">الحضور</span></a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="{{ route('admin.employees-absence.absence') }}"><span class="ml-1 item-text">الغياب</span></a>
                                 </li>
