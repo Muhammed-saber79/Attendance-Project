@@ -27,6 +27,7 @@
                                             <th>تاريخ التأخير</th>
                                             <th>حالة التواصل</th>
                                             <th>تاريخ الإرسال</th>
+                                            <th>الملفات</th>
                                             <th>الصورة الشخصية</th>
                                             <th>الإجراء</th>
                                         </tr>
@@ -59,6 +60,14 @@
                                                     <td class="text-info">{{ $message->created_at->diffForHumans() }}</td>
                                                 @else
                                                     <td class="text-info">لم يحدد بعد</td>
+                                                @endif
+
+                                                @if(@$absent->pdf)
+                                                    <td class="text-primary">
+                                                        <a href="{{ @$absent->pdf }}">أرشيف الملفات</a>
+                                                    </td>
+                                                @else
+                                                    <td class="text-primary-light">لا يوجد ملفات</td>
                                                 @endif
 
                                                 <td>
@@ -140,7 +149,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td style="color: red; text-align: center" colspan="7">لا يوجد إداريين مسجلين بالمنصة حتى الان</td>
+                                                <td style="color: red; text-align: center" colspan="11">لا يوجد إداريين مسجلين بالمنصة حتى الان</td>
                                             </tr>
                                         @endforelse
 

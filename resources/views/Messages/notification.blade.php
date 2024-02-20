@@ -2734,6 +2734,7 @@
 </head>
 
 <body class="c34 doc-content">
+<h1>Test</h1>
 
 <p class="c2" dir="rtl"><span class="c27">&#1573;&#1588;&#1593;&#1575;&#1585;
             &nbsp;&#1576;&#1575;&#1604;&#1581;&#1587;&#1605;</span></p>

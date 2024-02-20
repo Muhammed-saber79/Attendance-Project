@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GeneratePDF;
 use App\Models\Absence;
 use App\Models\Employee;
 use App\Models\EmployeeAbsence;
@@ -29,7 +30,7 @@ class MessagesController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'type' => 'required|in:notification,decision',
+            'type' => 'required|in:accountability,notification,decision',
         ]);
 
         DB::beginTransaction();
@@ -78,29 +79,26 @@ class MessagesController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'type' => 'required|in:notification,decision',
+            'type' => 'required|in:accountability,notification,decision',
+            'pdf' => ['required', 'in:yes,no']
         ]);
 
         DB::beginTransaction();
         try {
-            $message = new Messages();
-            $message->title = $validatedData['title'];
-            $message->description = $validatedData['description'];
-            $message->type = $validatedData['type'];
-            $message->messageable_type = "App\\Models\\Employee";
-            $message->messageable_id = $employee->id;
-            $message->save();
-
-            EmployeeAbsence::where('employee_id', $employee->id)->update([
-                'is_replied' => 1
+            Messages::create([
+                'title' => $validatedData['title'],
+                'description' => $validatedData['description'],
+                'type' => $validatedData['type'],
+                'messageable_type' => "App\\Models\\Employee",
+                'messageable_id' => $employee->id,
             ]);
 
             // Mail Service
             $data = [
                 'email' => $employee->email,
-                'title' => $request->title,
-                'description' => $request->description,
-                'type'=>$request->type,
+                'title' => $validatedData['title'],
+                'description' => $validatedData['description'],
+                'type' => $validatedData['type'],
             ];
 
             $result = $this->emailService->sendReplyEmail($data);
@@ -108,28 +106,31 @@ class MessagesController extends Controller
                 return redirect()->back()->with('error', 'حدث خطأ اثناء ارسال الرد. يمكنك المحاولة مجددا.');
             }
 
+            EmployeeAbsence::where('employee_id', $employee->id)->update([
+                'is_replied' => 1,
+            ]);
+
             DB::commit();
+
+            if ($request->pdf == 'yes') {
+                $data = [
+                    'employee_id' => $employee->id,
+                    'employee_name' => $employee->name,
+                    'type' => $validatedData['type'],
+                ];
+                GeneratePDF::dispatch($data)->onQueue('pdf-generation');
+            }
+
             return redirect()->back()->with('success', 'تم الإرسال بنجاح');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'حدث خطأ اثناء الإرسال, حاول مجددا لاحقا!');
+            return redirect()->back()->with('error', $e->getMessage());
+                //, 'حدث خطأ اثناء الإرسال, حاول مجددا لاحقا!');
         }
     }
 
-    public function viewPDF($file, $data)
+    public function generatePdf($file, $data)
     {
-        $pdf = PDF::loadView('Messages.usersdetails', array('data' =>  $data))
-            ->setPaper('a4', 'portrait');
 
-        return $pdf->stream();
-
-    }
-
-    public function downloadPDF($file, $data)
-    {
-        $pdf = PDF::loadView('pdf.usersdetails',  array('data' =>  $data))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->download('details.pdf');
     }
 }

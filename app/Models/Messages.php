@@ -9,6 +9,8 @@ class Messages extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'description', 'type', 'messageable_type', 'messageable_id'];
+
     public function messageable()
     {
         return $this->morphTo();

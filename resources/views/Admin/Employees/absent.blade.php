@@ -27,6 +27,7 @@
                                             <th>تاريخ الغياب</th>
                                             <th>حالة التواصل</th>
                                             <th>تاريخ الإرسال</th>
+                                            <th>الملفات</th>
                                             <th>الصورة الشخصية</th>
                                             <th>الإجراء</th>
                                         </tr>
@@ -46,19 +47,29 @@
                                                 <td>{{ @$absent->created_at->format('d-m-Y') }}</td>
                                                 <td>
                                                     @if(@$absent->is_replied)
-                                                        <span class="text-success">تم إرسال اشعار</span>
+                                                        <span class="text-success">تم إرسال رسالة</span>
                                                     @else
-                                                        <span class="text-warning">لم يتم إرسال اشعار</span>
+                                                        <span class="text-warning">لم يتم إرسال رسالة</span>
                                                     @endif
                                                 </td>
 
                                                 @if(@$absent->is_replied)
                                                     @php
-                                                        $message = $empData->messages()->where('type', 'notification')->whereDate('created_at', '>=', now()->subDays(2))->first();
+                                                        $message = $empData->messages()->where('type', 'accountability')->whereDate('created_at', '>=', now()->subDays(2))->first();
                                                     @endphp
-                                                    <td class="text-info">{{ $message->created_at->diffForHumans() }}</td>
+                                                    <td class="text-info">{{ optional($message->created_at)->diffForHumans() }}</td>
                                                 @else
                                                     <td class="text-info">لم يحدد بعد</td>
+                                                @endif
+
+                                                @if(@$absent->pdf)
+                                                    <td class="text-primary">
+                                                        <a href="{{ @$absent->pdf }}">
+                                                            أرشيف الملفات
+                                                        </a>
+                                                    </td>
+                                                @else
+                                                    <td class="text-primary-light">لا يوجد ملفات</td>
                                                 @endif
 
                                                 <td>
@@ -69,12 +80,57 @@
                                                         <span class="text-muted sr-only">الإجراء</span>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" data-toggle="modal" data-target="#accountEmployeeModal_{{ @$empData->id }}">مسائلة</a>
                                                         <a class="dropdown-item" data-toggle="modal" data-target="#editEmployeeModal_{{ @$empData->id }}">اشعار حسم</a>
-                                                        <a class="dropdown-item" href="" @if(@$absent->is_replied) data-toggle="modal" data-target="#decideEmployee_-{{ @$empData->id }}" @endif>قرار حسم</a>
+                                                        <a class="dropdown-item" href="" @if(@$absent->is_replied) data-toggle="modal" data-target="#decideEmployee_{{ @$empData->id }}" @endif>قرار حسم</a>
                                                     </div>
                                                 </td>
 
-                                                <!-- Modal for edit employee data -->
+                                                <!-- Modal for sending Accountability -->
+                                                <div class="modal fade" id="accountEmployeeModal_{{ @$empData->id }}" tabindex="-1" role="dialog" aria-labelledby="accountEmployeeModal_{{ @$empData->id }}" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="accountEmployeeModal_{{ @$empData->id }}">إرسال مسائلة</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{{ route('admin.messages.accountEmployee', @$empData->id) }}" method="post" id="accountEmployeeForm_{{ @$empData->id }}">
+                                                                    @csrf
+                                                                    <div class="form-group">
+                                                                        <label for="title">عنوان الرسالة:</label>
+                                                                        <input type="text" class="form-control" id="title" name="title" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="description">محتوى الرسالة:</label>
+                                                                        <textarea class="form-control" id="description" name="description" required></textarea>
+                                                                    </div>
+                                                                    <input type="hidden" name="type" value="accountability">
+                                                                    <div class="form-group d-flex align-items-center">
+                                                                        <label>طباعة المسائلة pdf:</label>
+                                                                        <div class="d-flex flex-row justify-content-between mx-auto">
+                                                                            <div class="mx-5">
+                                                                                <input type="radio" class="mx-1" id="yes" name="pdf" value="yes" required>
+                                                                                <span>نعم</span>
+                                                                            </div>
+                                                                            <div class="mx-5">
+                                                                                <input type="radio" class="mx-1" id="no" name="pdf" value="no" required>
+                                                                                <span>لا</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                                                                <button type="submit" class="btn btn-primary" form="accountEmployeeForm_{{ @$empData->id }}">إرسال</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Modal for sending Notification -->
                                                 <div class="modal fade" id="editEmployeeModal_{{ @$empData->id }}" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModal_{{ @$empData->id }}" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
@@ -96,6 +152,19 @@
                                                                         <textarea class="form-control" id="description" name="description" required></textarea>
                                                                     </div>
                                                                     <input type="hidden" name="type" value="notification">
+                                                                    <div class="form-group d-flex align-items-center">
+                                                                        <label>طباعة المسائلة pdf:</label>
+                                                                        <div class="d-flex flex-row justify-content-between mx-auto">
+                                                                            <div class="mx-5">
+                                                                                <input type="radio" class="mx-1" id="yes" name="pdf" value="yes" required>
+                                                                                <span>نعم</span>
+                                                                            </div>
+                                                                            <div class="mx-5">
+                                                                                <input type="radio" class="mx-1" id="no" name="pdf" value="no" required>
+                                                                                <span>لا</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
@@ -105,8 +174,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- Modal for delete an employee -->
-                                                <div class="modal fade" id="decideEmployee_-{{ @$empData->id }}" tabindex="-1" role="dialog" aria-labelledby="decideEmployee_-{{ @$empData->id }}" aria-hidden="true">
+                                                <!-- Modal for sending Decision -->
+                                                <div class="modal fade" id="decideEmployee_{{ @$empData->id }}" tabindex="-1" role="dialog" aria-labelledby="decideEmployee_{{ @$empData->id }}" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -116,7 +185,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form action="{{ route('admin.messages.decideEmployee', @$empData->id) }}" method="post" id="decideEmployee_{{ @$empData->id }}">
+                                                                <form action="{{ route('admin.messages.decideEmployee', @$empData->id) }}" method="post" id="decideForm_{{ @$empData->id }}">
                                                                     @csrf
                                                                     <div class="form-group">
                                                                         <label for="title">عنوان الرسالة:</label>
@@ -127,11 +196,24 @@
                                                                         <textarea class="form-control" id="description" name="description" required></textarea>
                                                                     </div>
                                                                     <input type="hidden" name="type" value="decision">
+                                                                    <div class="form-group d-flex align-items-center">
+                                                                        <label>طباعة المسائلة pdf:</label>
+                                                                        <div class="d-flex flex-row justify-content-between mx-auto">
+                                                                            <div class="mx-5">
+                                                                                <input type="radio" class="mx-1" id="yes" name="pdf" value="yes" required>
+                                                                                <span>نعم</span>
+                                                                            </div>
+                                                                            <div class="mx-5">
+                                                                                <input type="radio" class="mx-1" id="no" name="pdf" value="no" required>
+                                                                                <span>لا</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
-                                                                <button type="submit" class="btn btn-primary" form="decideEmployee_{{ @$absent->id }}">إرسال</button>
+                                                                <button type="submit" class="btn btn-primary" form="decideForm_{{ @$empData->id }}">إرسال</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -140,7 +222,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td style="color: red; text-align: center" colspan="7">لا يوجد إداريين مسجلين بالمنصة حتى الان</td>
+                                                <td style="color: red; text-align: center" colspan="11">لا يوجد إداريين مسجلين بالمنصة حتى الان</td>
                                             </tr>
                                         @endforelse
 

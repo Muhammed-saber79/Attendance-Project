@@ -1,7 +1,8 @@
 <html>
 
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+{{--    <meta content="text/html; charset=UTF-8" http-equiv="content-type">--}}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style type="text/css">
         .lst-kix_list_2-6>li:before {
             content: "" counter(lst-ctn-kix_list_2-6, decimal) ". "
