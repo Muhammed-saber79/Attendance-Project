@@ -117,6 +117,8 @@ class MessagesController extends Controller
                     'employee_id' => $employee->id,
                     'employee_name' => $employee->name,
                     'type' => $validatedData['type'],
+                    'attachmentable_type' => "App\\Models\\Employee",
+                    'attachmentable_id' => $employee->id,
                 ];
                 GeneratePDF::dispatch($data)->onQueue('pdf-generation');
             }
@@ -129,8 +131,11 @@ class MessagesController extends Controller
         }
     }
 
-    public function generatePdf($file, $data)
+    public function employeeMessages($id)
     {
+        $absence = EmployeeAbsence::findOrFail($id);
+        $attachments = $absence->attachments;
 
+        return view('Admin.Employees.Messages.index', compact('attachments'));
     }
 }

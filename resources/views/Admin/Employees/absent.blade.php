@@ -62,9 +62,9 @@
                                                     <td class="text-info">لم يحدد بعد</td>
                                                 @endif
 
-                                                @if(@$absent->pdf)
+                                                @if(@$absent->attachments()->count() > 0)
                                                     <td class="text-primary">
-                                                        <a href="{{ @$absent->pdf }}">
+                                                        <a href="{{ route('admin.messages.employee', $absent->id) }}">
                                                             أرشيف الملفات
                                                         </a>
                                                     </td>

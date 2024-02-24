@@ -16,4 +16,9 @@ class Absence extends Model
     public function attendance(){
         return $this->belongsTo(Attendance::class , 'teacher_id');
     }
+
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachmentable');
+    }
 }

@@ -30,14 +30,18 @@ class GeneratePDF implements ShouldQueue
      */
     public function handle()
     {
-        $viewPath = resource_path("views/Messages/{$this->data['type']}.blade.php");
-        $pdf = PDF::loadView($viewPath, $this->data);//. $this->data['type'] .'test');
-        $pdfPath = 'pdfs/' . uniqid() . '.pdf';
+        $pdf = PDF::loadView("Messages.{$this->data['type']}", $this->data);
+        $pdfPath = "pdfs/{$this->data['employee_name']}/" . now()->format('d-m-Y') . '-' . uniqid() . '.pdf';
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
         $path = Storage::disk('public')->url($pdfPath);
-        EmployeeAbsence::where('employee_id', $this->data['employee_id'])->update([
+        $employee = EmployeeAbsence::where('employee_id', $this->data['employee_id'])->first();
+
+        $employee->attachments()->create([
             'pdf' => $path,
+            'message_type' => $this->data['type'],
+            'attachmentable_type' => $this->data['attachmentable_type'],
+            'attachmentable_id' => $this->data['attachmentable_id'],
         ]);
     }
 }

@@ -2734,13 +2734,12 @@
 </head>
 
 <body class="c34 doc-content">
-<h1>Test</h1>
 
 <p class="c2" dir="rtl"><span class="c27">&#1573;&#1588;&#1593;&#1575;&#1585;
             &nbsp;&#1576;&#1575;&#1604;&#1581;&#1587;&#1605;</span></p>
 <p class="c2 c14" dir="rtl"><span class="c28"></span></p>
-<p class="c2 c17" dir="rtl"><span class="c29">&#1575;&#1604;&#1605;&#1583;&#1585;&#1576;/ &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+<p class="c2 c17" dir="rtl"><span class="c29">&#1575;&#1604;&#1605;&#1583;&#1585;&#1576;/ {{ $employee_name }}
+        &nbsp;&nbsp; &nbsp; &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             &nbsp;&#1575;&#1604;&#1605;&#1581;&#1578;&#1585;&#1605;</span></p>
 <p class="c2 c14" dir="rtl"><span class="c5"></span></p>

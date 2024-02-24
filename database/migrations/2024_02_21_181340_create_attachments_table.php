@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_absences', function (Blueprint $table) {
+        Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
-            $table->string('employee_number');
-            $table->enum('status', ['absent', 'late', 'attend']);
-            $table->boolean('is_replied')->default(0);
+            $table->text('pdf')->nullable();
+            $table->string('message_type')->nullable();
+            $table->morphs('attachmentable');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_absences');
+        Schema::dropIfExists('attachments');
     }
 };

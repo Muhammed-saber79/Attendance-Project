@@ -17,4 +17,9 @@ class EmployeeAbsence extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachmentable');
+    }
 }

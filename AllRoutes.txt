@@ -1,0 +1,52 @@
+
+  ANY             / ................................................................................................ Illuminate\Routing › RedirectController
+  POST            _ignition/execute-solution ................................. ignition.executeSolution › Spatie\LaravelIgnition › ExecuteSolutionController
+  GET|HEAD        _ignition/health-check ............................................. ignition.healthCheck › Spatie\LaravelIgnition › HealthCheckController
+  POST            _ignition/update-config .......................................... ignition.updateConfig › Spatie\LaravelIgnition › UpdateConfigController
+  GET|HEAD        admin ............................................................................................ admin.home › Admin\HomeController@index
+  GET|HEAD        admin/change_status ............................................................. admin. › Admin\TeacherAttendenceController@change_status
+  GET|HEAD        admin/delete_all ......................................................... admin.delete_all › Admin\TeacherAttendenceController@delete_all
+  GET|HEAD        admin/employees .................................................................. admin.employees.index › Admin\EmployeesController@index
+  GET|HEAD        admin/employees-attendance .................................. admin.employees-attendance.index › Admin\EmployeesAttendanceController@index
+  GET|HEAD        admin/employees-attendance/change_status ................. admin.employees-attendance. › Admin\EmployeesAttendanceController@change_status
+  GET|HEAD        admin/employees/absence ....................................... admin.employees-absence.absence › Admin\EmployeesAbsenceController@absence
+  GET|HEAD        admin/employees/attend .......................................... admin.employees-absence.attend › Admin\EmployeesAbsenceController@attend
+  DELETE          admin/employees/destroy/{id} ................................................. admin.employees.destroy › Admin\EmployeesController@destroy
+  GET|HEAD        admin/employees/late ................................................ admin.employees-absence.late › Admin\EmployeesAbsenceController@late
+  POST            admin/employees/store ............................................................ admin.employees.store › Admin\EmployeesController@store
+  PUT             admin/employees/update/{id} .................................................... admin.employees.update › Admin\EmployeesController@update
+  GET|HEAD        admin/login ........................................................................................... admin.login › AuthController@login
+  POST            admin/login/do .................................................................................. admin.do_login › AuthController@do_login
+  POST            admin/logout ........................................................................................ admin.logout › AuthController@logout
+  POST            admin/messages/employee/account/{id} ............................ admin.messages.accountEmployee › Admin\MessagesController@notifyEmployee
+  POST            admin/messages/employee/decide/{id} .............................. admin.messages.decideEmployee › Admin\MessagesController@notifyEmployee
+  POST            admin/messages/employee/notify/{id} .............................. admin.messages.notifyEmployee › Admin\MessagesController@notifyEmployee
+  POST            admin/messages/teacher/account/{id} ............................... admin.messages.accountTeacher › Admin\MessagesController@notifyTeacher
+  POST            admin/messages/teacher/decide/{id} ................................. admin.messages.decideTeacher › Admin\MessagesController@notifyTeacher
+  POST            admin/messages/teacher/notify/{id} ................................. admin.messages.notifyTeacher › Admin\MessagesController@notifyTeacher
+  GET|HEAD        admin/teacher_absense ..................................................... admin.teachers_absense › Admin\TeacherStatusController@absense
+  GET|HEAD        admin/teacher_attendence ........................................ admin.teacher_attendence.index › Admin\TeacherAttendenceController@index
+  POST            admin/teacher_attendence ........................................ admin.teacher_attendence.store › Admin\TeacherAttendenceController@store
+  GET|HEAD        admin/teacher_attendence/create ............................... admin.teacher_attendence.create › Admin\TeacherAttendenceController@create
+  GET|HEAD        admin/teacher_attendence/{teacher_attendence} ..................... admin.teacher_attendence.show › Admin\TeacherAttendenceController@show
+  PUT|PATCH       admin/teacher_attendence/{teacher_attendence} ................. admin.teacher_attendence.update › Admin\TeacherAttendenceController@update
+  DELETE          admin/teacher_attendence/{teacher_attendence} ............... admin.teacher_attendence.destroy › Admin\TeacherAttendenceController@destroy
+  GET|HEAD        admin/teacher_attendence/{teacher_attendence}/edit ................ admin.teacher_attendence.edit › Admin\TeacherAttendenceController@edit
+  GET|HEAD        admin/teacher_delay ........................................................... admin.teachers_delay › Admin\TeacherStatusController@delay
+  GET|HEAD        admin/teachers ..................................................................... admin.teachers.index › Admin\TeachersController@index
+  POST            admin/teachers ..................................................................... admin.teachers.store › Admin\TeachersController@store
+  GET|HEAD        admin/teachers/create ............................................................ admin.teachers.create › Admin\TeachersController@create
+  GET|HEAD        admin/teachers/{teacher} ............................................................. admin.teachers.show › Admin\TeachersController@show
+  PUT|PATCH       admin/teachers/{teacher} ......................................................... admin.teachers.update › Admin\TeachersController@update
+  DELETE          admin/teachers/{teacher} ....................................................... admin.teachers.destroy › Admin\TeachersController@destroy
+  GET|HEAD        admin/teachers/{teacher}/edit ........................................................ admin.teachers.edit › Admin\TeachersController@edit
+  GET|HEAD        admin/teachers_attend ....................................................... admin.teachers_attend › Admin\TeacherStatusController@attend
+  GET|HEAD        api/user ................................................................................................................................. 
+  GET|HEAD        livewire/livewire.js ......................................................... Livewire\Mechanisms › FrontendAssets@returnJavaScriptAsFile
+  GET|HEAD        livewire/preview-file/{filename} ................................ livewire.preview-file › Livewire\Features › FilePreviewController@handle
+  POST            livewire/update ...................................................... livewire.update › Livewire\Mechanisms › HandleRequests@handleUpdate
+  POST            livewire/upload-file .............................................. livewire.upload-file › Livewire\Features › FileUploadController@handle
+  GET|HEAD        sanctum/csrf-cookie .................................................... sanctum.csrf-cookie › Laravel\Sanctum › CsrfCookieController@show
+
+                                                                                                                                         Showing [48] routes
+

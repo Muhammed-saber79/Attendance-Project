@@ -725,7 +725,7 @@
             <p class="c0" dir="rtl"><span class="c14">1</span></p>
         </td>
         <td class="c10" colspan="1" rowspan="1">
-            <p class="c0 c18" dir="rtl"><span class="c1"></span></p>
+            <p class="c0 c18" dir="rtl"><span class="c1">{{ $employee_name }}</span></p>
         </td>
         <td class="c21" colspan="1" rowspan="1">
             <p class="c0 c18" dir="rtl"><span class="c1"></span></p>

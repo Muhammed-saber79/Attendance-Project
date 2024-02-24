@@ -41,12 +41,12 @@ Route::group([
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('teacher_attendence',TeacherAttendenceController::class);
     Route::resource('teachers',TeachersController::class);
+    Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
 
     Route::group([
         'middleware' => ['role:Admin']
     ], function () {
         Route::get('delete_all',[TeacherAttendenceController::class,'delete_all'])->name('delete_all');
-        Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
         Route::get('/employees', [EmployeesController::class, 'index'])->name('employees.index');
         Route::post('/employees/store', [EmployeesController::class, 'store'])->name('employees.store');
         Route::put('/employees/update/{id}', [EmployeesController::class, 'update'])->name('employees.update');
@@ -59,7 +59,7 @@ Route::group([
 
     Route::group([
         'prefix' => '/employees-attendance',
-        'as' => 'employees-attendance.'
+        'as' => 'employees-attendance.',
     ], function () {
         Route::get('/', [EmployeesAttendanceController::class, 'index'])->name('index');
         Route::get('change_status',[EmployeesAttendanceController::class,'change_status']);
@@ -82,6 +82,7 @@ Route::group([
         Route::post('/teacher/decide/{id}', [MessagesController::class, 'notifyTeacher'])->name('decideTeacher');
         Route::post('/teacher/account/{id}', [MessagesController::class, 'notifyTeacher'])->name('accountTeacher');
 
+        Route::get('/employee/messages/{id}', [MessagesController::class, 'employeeMessages'])->name('employee');
         Route::post('/employee/notify/{id}', [MessagesController::class, 'notifyEmployee'])->name('notifyEmployee');
         Route::post('/employee/decide/{id}', [MessagesController::class, 'notifyEmployee'])->name('decideEmployee');
         Route::post('/employee/account/{id}', [MessagesController::class, 'notifyEmployee'])->name('accountEmployee');

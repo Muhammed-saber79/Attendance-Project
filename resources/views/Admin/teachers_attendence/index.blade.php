@@ -1,5 +1,9 @@
 @extends('Layouts.admin')
 
+@section('title')
+    جدول الحضور اليومي
+@endsection
+
 @section('content')
 <main role="main" class="main-content">
   <div class="container-fluid">
@@ -13,8 +17,9 @@
             <div class="card shadow">
               <div class="card-body">
                 <div class="mb-3">
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#uploadExcel">رفع ملف اكسيل </button>
-                  <button class="btn btn-danger" data-toggle="modal" data-target="#deleteAll">حذف كل البيانات</button>
+                  <button class="btn btn-primary mx-1" data-toggle="modal" data-target="#uploadExcel">رفع ملف اكسيل </button>
+                  <button class="btn btn-danger mx-1" data-toggle="modal" data-target="#deleteAll">حذف كل البيانات</button>
+                  <button class="btn btn-info mx-1" data-toggle="modal" data-target="#templateData">بيانات القالب الأساسي</button>
                 </div>
                 <table class="table data-table" id="attendence">
                   <thead>
@@ -50,7 +55,7 @@
   <div class="modal fade" id="uploadExcel" tabindex="-1" role="dialog" aria-labelledby="addTemplateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary">
           <h5 class="modal-title" id="addTemplateModalLabel">رفع ملف اكسيل</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -73,20 +78,17 @@
       </div>
     </div>
   </div>
-
-
-
   <div class="modal fade" id="deleteAll" tabindex="-1" role="dialog" aria-labelledby="addTemplateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-danger">
           <h5 class="modal-title" id="addTemplateModalLabel"> </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-        
+
             <div class="form-group">
               <h2>هل انت متاكد من حذف جميع البيانات ؟ </h2>
             </div>
@@ -100,80 +102,96 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-  <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+  <div class="modal fade" id="templateData" tabindex="-1" role="dialog" aria-labelledby="addTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
+        <style>
+              .pretty-card {
+                  background-color: palegreen;
+                  color: #0c5460;
+                  border-radius: 5px;
+                  padding: 10px;
+                  margin-bottom: 10px;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              }
+          </style>
+        <div class="modal-header bg-info">
+          <h5 class="modal-title" id="addTemplateModalLabel">البيانات الاساسية للقالب</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="list-group list-group-flush my-n3">
-            <div class="list-group-item bg-transparent">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <span class="fe fe-box fe-24"></span>
-                </div>
-                <div class="col">
-                  <small><strong>Package has uploaded successfull</strong></small>
-                  <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                  <small class="badge badge-pill badge-light text-muted">1m ago</small>
-                </div>
+              <div class="form-group d-flex flex-wrap justify-content-around">
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">اسم المدرب</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">رقم المدرب</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">متبقي</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">مسجلين</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">سعة</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">قاعة</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">مبنى</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">نوع الجدولة</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">الوقت</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">اليوم</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">نوع الشعبة</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">ساعات الاتصال</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">ساعات المحاسبة</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">الرقم المرجعي</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">اسم المقرر</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">المقرر</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">القسم</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">جزء الفصل</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">الوحدة التدريبية</span>
+                  </div>
+                  <div class="pretty-card mx-1">
+                      <span class="text-center">الفصل التدريبي</span>
+                  </div>
               </div>
-            </div>
-            <div class="list-group-item bg-transparent">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <span class="fe fe-download fe-24"></span>
-                </div>
-                <div class="col">
-                  <small><strong>Widgets are updated successfull</strong></small>
-                  <div class="my-0 text-muted small">Just create new layout Index, form, table</div>
-                  <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                </div>
-              </div>
-            </div>
-            <div class="list-group-item bg-transparent">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <span class="fe fe-inbox fe-24"></span>
-                </div>
-                <div class="col">
-                  <small><strong>Notifications have been sent</strong></small>
-                  <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                  <small class="badge badge-pill badge-light text-muted">30m ago</small>
-                </div>
-              </div> <!-- / .row -->
-            </div>
-            <div class="list-group-item bg-transparent">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <span class="fe fe-link fe-24"></span>
-                </div>
-                <div class="col">
-                  <small><strong>Link was attached to menu</strong></small>
-                  <div class="my-0 text-muted small">New layout has been attached to the menu</div>
-                  <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                </div>
-              </div>
-            </div> <!-- / .row -->
-          </div> <!-- / .list-group -->
-        </div>
+          </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
-        </div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">حسنا</button>
+          </div>
       </div>
     </div>
   </div>
+
   <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
