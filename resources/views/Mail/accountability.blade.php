@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TVTC | إشعار حسم</title>
+        <title>TVTC | مسائلة</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -77,12 +77,12 @@
         <div class="container" dir="rtl">
             <div class="header">
                 <h1>
-                    إشعار حسم حول الحضور والغياب
+                    مسائلة حول الحضور والغياب
                 </h1>
             </div>
             <div class="content">
                 <p>مرحباً،</p>
-                <p>يسرنا إعلامكم بتسجيل حالة الحضور أو الغياب.</p>
+                <p>لدينا مسائلة حول حالة الحضور أو الغياب الخاصة بكم.</p>
                 <p>التفاصيل كالتالي:</p>
                 <ul>
                     <li>الوصف: {{ $data['description'] }}</li>

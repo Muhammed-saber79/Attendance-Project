@@ -75,19 +75,55 @@ class MessagesController extends Controller
     public function notifyEmployee(Request $request, $id)
     {
         $employee = Employee::findOrFail($id);
-
         $validatedData = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
             'type' => 'required|in:accountability,notification,decision',
-            'pdf' => ['required', 'in:yes,no']
         ]);
 
         DB::beginTransaction();
         try {
             Messages::create([
-                'title' => $validatedData['title'],
-                'description' => $validatedData['description'],
+                'title' => $validatedData['title'] ?? '',
+                'description' => $validatedData['description'] ?? '',
+                'type' => $validatedData['type'],
+                'messageable_type' => "App\\Models\\Employee",
+                'messageable_id' => $employee->id,
+            ]);
+            EmployeeAbsence::where('employee_id', $employee->id)->update([
+                'is_replied' => 1,
+            ]);
+            DB::commit();
+
+            $data = [
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'type' => $validatedData['type'],
+                'attachmentable_type' => "App\\Models\\Employee",
+                'attachmentable_id' => $employee->id,
+            ];
+            GeneratePDF::dispatch($data)->onQueue('pdf-generation');
+
+            return redirect()->back()->with('success', 'تمت العملية بنجاح');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+                //, 'حدث خطأ اثناء الإرسال, حاول مجددا لاحقا!');
+        }
+    }
+
+    public function replyToEmail(Request $request, $id)
+    {
+        $employee = Employee::findOrFail($id);
+        $validatedData = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'pdf' => ['nullable'],
+            'type' => 'required|in:accountability,notification,decision',
+        ]);
+
+        try {
+            Messages::create([
+                'title' => $validatedData['title'] ?? '',
+                'description' => $validatedData['description'] ?? '',
                 'type' => $validatedData['type'],
                 'messageable_type' => "App\\Models\\Employee",
                 'messageable_id' => $employee->id,
@@ -96,45 +132,33 @@ class MessagesController extends Controller
             // Mail Service
             $data = [
                 'email' => $employee->email,
-                'title' => $validatedData['title'],
-                'description' => $validatedData['description'],
+                'title' => $validatedData['title'] ?? '',
+                'description' => $validatedData['description'] ?? '',
                 'type' => $validatedData['type'],
             ];
+
+            // If PDF file is provided, attach it to the email
+            if ($request->hasFile('pdf')) {
+                $pdfPath = $request->file('pdf')->getPathName();
+                $data['pdfPath'] = $pdfPath;
+            }
 
             $result = $this->emailService->sendReplyEmail($data);
             if (! $result['status'] ) {
                 return redirect()->back()->with('error', 'حدث خطأ اثناء ارسال الرد. يمكنك المحاولة مجددا.');
             }
 
-            EmployeeAbsence::where('employee_id', $employee->id)->update([
-                'is_replied' => 1,
-            ]);
-
-            DB::commit();
-
-            if ($request->pdf == 'yes') {
-                $data = [
-                    'employee_id' => $employee->id,
-                    'employee_name' => $employee->name,
-                    'type' => $validatedData['type'],
-                    'attachmentable_type' => "App\\Models\\Employee",
-                    'attachmentable_id' => $employee->id,
-                ];
-                GeneratePDF::dispatch($data)->onQueue('pdf-generation');
-            }
-
             return redirect()->back()->with('success', 'تم الإرسال بنجاح');
         } catch (\Exception $e) {
-            DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
-                //, 'حدث خطأ اثناء الإرسال, حاول مجددا لاحقا!');
+            //, 'حدث خطأ اثناء الإرسال, حاول مجددا لاحقا!');
         }
     }
 
     public function employeeMessages($id)
     {
-        $absence = EmployeeAbsence::findOrFail($id);
-        $attachments = $absence->attachments;
+        $employee = Employee::findOrFail($id);
+        $attachments = $employee->attachments;
 
         return view('Admin.Employees.Messages.index', compact('attachments'));
     }

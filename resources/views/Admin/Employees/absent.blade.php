@@ -55,16 +55,16 @@
 
                                                 @if(@$absent->is_replied)
                                                     @php
-                                                        $message = $empData->messages()->where('type', 'accountability')->whereDate('created_at', '>=', now()->subDays(2))->first();
+                                                        $message = $empData->messages()->where('type', 'accountability')->orWhere('type', 'notification')->whereDate('created_at', '>=', now()->subDays(2))->first();
                                                     @endphp
                                                     <td class="text-info">{{ optional($message->created_at)->diffForHumans() }}</td>
                                                 @else
                                                     <td class="text-info">لم يحدد بعد</td>
                                                 @endif
 
-                                                @if(@$absent->attachments()->count() > 0)
+                                                @if(@$absent->employee->attachments()->count() > 0)
                                                     <td class="text-primary">
-                                                        <a href="{{ route('admin.messages.employee', $absent->id) }}">
+                                                        <a href="{{ route('admin.messages.employee', $absent->employee->id) }}">
                                                             أرشيف الملفات
                                                         </a>
                                                     </td>
@@ -83,6 +83,7 @@
                                                         <a class="dropdown-item" data-toggle="modal" data-target="#accountEmployeeModal_{{ @$empData->id }}">مسائلة</a>
                                                         <a class="dropdown-item" data-toggle="modal" data-target="#editEmployeeModal_{{ @$empData->id }}">اشعار حسم</a>
                                                         <a class="dropdown-item" href="" @if(@$absent->is_replied) data-toggle="modal" data-target="#decideEmployee_{{ @$empData->id }}" @endif>قرار حسم</a>
+                                                        <a class="dropdown-item" href="" @if(@$absent->is_replied) data-toggle="modal" data-target="#sendEmail_{{ @$empData->id }}" @endif>إرسال رد على الايميل</a>
                                                     </div>
                                                 </td>
 
@@ -99,6 +100,10 @@
                                                             <div class="modal-body">
                                                                 <form action="{{ route('admin.messages.accountEmployee', @$empData->id) }}" method="post" id="accountEmployeeForm_{{ @$empData->id }}">
                                                                     @csrf
+                                                                    <h5>تأكيد طباعة المسائلة في ملف pdf, يرجى العلم بأنه سوف يتم تخزين الملف في أرشيف الملفات الخاص بالموظف</h5>
+                                                                    <input type="hidden" name="type" value="accountability">
+
+                                                                    {{--
                                                                     <div class="form-group">
                                                                         <label for="title">عنوان الرسالة:</label>
                                                                         <input type="text" class="form-control" id="title" name="title" required>
@@ -107,7 +112,6 @@
                                                                         <label for="description">محتوى الرسالة:</label>
                                                                         <textarea class="form-control" id="description" name="description" required></textarea>
                                                                     </div>
-                                                                    <input type="hidden" name="type" value="accountability">
                                                                     <div class="form-group d-flex align-items-center">
                                                                         <label>طباعة المسائلة pdf:</label>
                                                                         <div class="d-flex flex-row justify-content-between mx-auto">
@@ -121,6 +125,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    --}}
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
@@ -135,7 +140,7 @@
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="editEmployeeModal_{{ @$empData->id }}">إرسال إشعار حسم</h5>
+                                                                <h5 class="modal-title" id="editEmployeeModal_{{ @$empData->id }}">طباعة إشعار حسم</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -143,6 +148,10 @@
                                                             <div class="modal-body">
                                                                 <form action="{{ route('admin.messages.notifyEmployee', @$empData->id) }}" method="post" id="editTemplateForm_{{ @$empData->id }}">
                                                                     @csrf
+                                                                    <h5>تأكيد طباعة إشعار الحسم في ملف pdf, يرجى العلم بأنه سوف يتم تخزين الملف في أرشيف الملفات الخاص بالموظف</h5>
+                                                                    <input type="hidden" name="type" value="notification">
+
+                                                                    {{--
                                                                     <div class="form-group">
                                                                         <label for="title">عنوان الرسالة:</label>
                                                                         <input type="text" class="form-control" id="title" name="title" required>
@@ -151,7 +160,6 @@
                                                                         <label for="description">محتوى الرسالة:</label>
                                                                         <textarea class="form-control" id="description" name="description" required></textarea>
                                                                     </div>
-                                                                    <input type="hidden" name="type" value="notification">
                                                                     <div class="form-group d-flex align-items-center">
                                                                         <label>طباعة المسائلة pdf:</label>
                                                                         <div class="d-flex flex-row justify-content-between mx-auto">
@@ -165,6 +173,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    --}}
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
@@ -179,7 +188,7 @@
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="addTemplateModalLabel">إرسال قرار حسم</h5>
+                                                                <h5 class="modal-title" id="addTemplateModalLabel">طباعة قرار حسم</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -187,6 +196,10 @@
                                                             <div class="modal-body">
                                                                 <form action="{{ route('admin.messages.decideEmployee', @$empData->id) }}" method="post" id="decideForm_{{ @$empData->id }}">
                                                                     @csrf
+                                                                    <h5>تأكيد طباعة قرار الحسم في ملف pdf, يرجى العلم بأنه سوف يتم تخزين الملف في أرشيف الملفات الخاص بالموظف</h5>
+                                                                    <input type="hidden" name="type" value="decision">
+
+                                                                    {{--
                                                                     <div class="form-group">
                                                                         <label for="title">عنوان الرسالة:</label>
                                                                         <input type="text" class="form-control" id="title" name="title" required>
@@ -195,7 +208,6 @@
                                                                         <label for="description">محتوى الرسالة:</label>
                                                                         <textarea class="form-control" id="description" name="description" required></textarea>
                                                                     </div>
-                                                                    <input type="hidden" name="type" value="decision">
                                                                     <div class="form-group d-flex align-items-center">
                                                                         <label>طباعة المسائلة pdf:</label>
                                                                         <div class="d-flex flex-row justify-content-between mx-auto">
@@ -209,11 +221,55 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    --}}
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
                                                                 <button type="submit" class="btn btn-primary" form="decideForm_{{ @$empData->id }}">إرسال</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Modal for sending Email -->
+                                                <div class="modal fade" id="sendEmail_{{ @$empData->id }}" tabindex="-1" role="dialog" aria-labelledby="sendEmail_{{ @$empData->id }}" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="addTemplateModalLabel">إرسال رد عبر البريد الإلكتروني</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{{ route('admin.messages.replyToEmail', @$empData->id) }}" method="post" enctype="multipart/form-data" id="emailForm_{{ @$empData->id }}">
+                                                                    @csrf
+                                                                    <div class="form-group">
+                                                                        <label for="title">عنوان الرسالة:</label>
+                                                                        <input type="text" class="form-control" id="title" name="title" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="description">محتوى الرسالة:</label>
+                                                                        <textarea class="form-control" id="description" name="description" required></textarea>
+                                                                    </div>
+                                                                    <input type="hidden" name="type" value="sendEmail">
+                                                                    <div class="form-group">
+                                                                        <label for="type">نوع الرسالة:</label>
+                                                                        <select name="type" id="type" class="form-control" required>
+                                                                            <option value="accountability">مسائلة</option>
+                                                                            <option value="notification">إشعار حسم</option>
+                                                                            <option value="decision">قرار حسم</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="pdf">إرفاق ملف: </label>
+                                                                        <input type="file" name="pdf" id="pdf" class="form-control" accept=".pdf, .docx">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                                                                <button type="submit" class="btn btn-primary" form="emailForm_{{ @$empData->id }}">إرسال</button>
                                                             </div>
                                                         </div>
                                                     </div>

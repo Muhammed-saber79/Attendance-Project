@@ -10,15 +10,21 @@ class EmailService
     public function sendReplyEmail ($data)
     {
         try {
-            if ($data['type'] == 'notification') {
-                Mail::send('Mail.notification', ['data' => $data], function ($mail) use ($data) {
+            $view = 'Mail.' . $data['type'];
+            if (isset($data['pdfPath'])) {
+                Mail::send($view, ['data' => $data], function ($mail) use ($data) {
                     $mail->to($data['email'])
                         ->subject(@$data['title']);
+
+                    $mail->attach($data['pdfPath'], [
+                        'as' => 'attachment.pdf',
+                        'mime' => 'application/pdf',
+                    ]);
                 });
             } else {
-                Mail::send('Mail.decision', ['data' => $data], function ($mail) use ($data) {
+                Mail::send($view, ['data' => $data], function ($mail) use ($data) {
                     $mail->to($data['email'])
-                        ->subject($data['title']);
+                        ->subject(@$data['title']);
                 });
             }
 

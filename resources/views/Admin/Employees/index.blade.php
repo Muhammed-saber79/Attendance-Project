@@ -75,6 +75,7 @@
                                             <th>الإدارة التابع لها</th>
                                             <th>الهاتف</th>
                                             <th>البريد الإلكتروني</th>
+                                            <th>الملفات</th>
                                             <th>الصورة الشخصية</th>
                                             <th>الإجراء</th>
                                         </tr>
@@ -88,6 +89,15 @@
                                                     <td>{{ @$employee->department }}</td>
                                                     <td>{{ @$employee->phone }}</td>
                                                     <td>{{ @$employee->email }}</td>
+                                                    @if(@$employee->attachments()->count() > 0)
+                                                        <td class="text-primary">
+                                                            <a href="{{ route('admin.messages.employee', $employee->id) }}">
+                                                                أرشيف الملفات
+                                                            </a>
+                                                        </td>
+                                                    @else
+                                                        <td class="text-primary-light">لا يوجد ملفات</td>
+                                                    @endif
                                                     <td>
                                                         <img src="{{ @$employee->getFirstMediaUrl('image', 'thumb') }}" width="75px" alt="صورة الموظف">
                                                     </td>

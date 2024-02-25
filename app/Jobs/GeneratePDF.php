@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Employee;
 use App\Models\EmployeeAbsence;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,7 +36,8 @@ class GeneratePDF implements ShouldQueue
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
         $path = Storage::disk('public')->url($pdfPath);
-        $employee = EmployeeAbsence::where('employee_id', $this->data['employee_id'])->first();
+        //$employeeAbsence = EmployeeAbsence::where('employee_id', $this->data['employee_id'])->first();
+        $employee = Employee::where('id', $this->data['employee_id'])->first();
 
         $employee->attachments()->create([
             'pdf' => $path,

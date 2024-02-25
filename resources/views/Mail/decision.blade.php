@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frame Car | استجابة للطلب</title>
+    <title>TVTC | قرار حسم</title>
     <style>
         body {
             font-family: Arial, sans-serif;

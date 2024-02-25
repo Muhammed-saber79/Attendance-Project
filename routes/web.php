@@ -86,5 +86,6 @@ Route::group([
         Route::post('/employee/notify/{id}', [MessagesController::class, 'notifyEmployee'])->name('notifyEmployee');
         Route::post('/employee/decide/{id}', [MessagesController::class, 'notifyEmployee'])->name('decideEmployee');
         Route::post('/employee/account/{id}', [MessagesController::class, 'notifyEmployee'])->name('accountEmployee');
+        Route::post('/employee/replyToEmail/{id}', [MessagesController::class, 'replyToEmail'])->name('replyToEmail');
     });
 });

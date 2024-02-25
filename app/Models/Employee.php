@@ -24,4 +24,9 @@ class Employee extends Model implements HasMedia
     {
         return $this->morphMany(Messages::class, 'messageable');
     }
+
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachmentable');
+    }
 }

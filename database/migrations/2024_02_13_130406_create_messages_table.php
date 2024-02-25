@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->enum('type', ['accountability', 'notification', 'decision']);
+            $table->enum('type', ['accountability', 'notification', 'decision', 'sendEmail']);
             $table->unsignedBigInteger('messageable_id');
             $table->string('messageable_type');
             $table->timestamps();
