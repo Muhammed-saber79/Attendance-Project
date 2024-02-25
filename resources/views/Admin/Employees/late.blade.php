@@ -47,8 +47,8 @@
                                                 <td>{{ @$late->employee->email }}</td>
                                                 <td>{{ @$late->created_at->format('d-m-Y') }}</td>
                                                 <td>
-                                                    <span>من: </span>
-                                                    <span>إلى: </span>
+                                                    <span>من: {{ @$late->from }}</span>
+                                                    <span>إلى: {{ @$late->to }}</span>
                                                 </td>
                                                 <td>
                                                     @if(@$late->is_replied)

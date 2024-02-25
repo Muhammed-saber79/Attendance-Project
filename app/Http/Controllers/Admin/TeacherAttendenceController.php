@@ -40,7 +40,43 @@ class TeacherAttendenceController extends Controller
                     }
                     $btn = '<button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-success change_status" data-type="attend" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">حضور</button>
                             <button ' . $value . ' onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">تاخير</button>
-                            <button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absense" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">غياب</button>';
+                            <button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absense" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">غياب</button>
+                            <button ' . $value . ' class="btn btn-sm btn-warning" data-toggle="modal" data-target="#statusChangeModal-' . @$row->id . '">تاخير</button>
+                            <div class="modal fade" id="statusChangeModal-' . @$row->id . '" tabindex="-1" role="dialog" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="statusChangeModalLabel">تغيير الحالة</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="statusChangeForm-' . @$row->id . '" onsubmit="submitForm(this, event)">
+                                                <!-- Hidden inputs to hold employee data -->
+                                                <input type="hidden" name="employee_number" id="employee_number" value="' . @$row->teacher_number . '">
+                                                <input type="hidden" name="id" id="employee_id" value="' . @$row->id . '">
+                                                <input type="hidden" name="type" id="type" value="late">
+                                                <input type="hidden" name="elementId" id="elementId" value="parent-' . @$row->id . '">
+                                                <input type="hidden" name="modalId" id="modalId" value="statusChangeModal-' . @$row->id . '">
+
+                                                <div class="form-group">
+                                                    <label for="fromTime">بداية من الساعة: </label>
+                                                    <input oninput="limitTimeRange(this, \'statusChangeForm-' . @$row->id . '\')" type="time" name="fromTime" id="fromTime" class="form-control"  min="00:00" max="23:59" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="toTime">إلى الساعة: </label>
+                                                    <input type="time" name="toTime" id="toTime" class="form-control" max="23:59" required>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary">حفظ</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ';
 
                     return $btn;
                 })
@@ -73,33 +109,6 @@ class TeacherAttendenceController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy()
     {
         // Attendance::truncate();
@@ -107,6 +116,7 @@ class TeacherAttendenceController extends Controller
         // Absence::truncate();
         return 'ddddd';
     }
+
     public function delete_all(){
         // Attendance::truncate();
         $teachers = Teacher::all();
@@ -125,7 +135,9 @@ class TeacherAttendenceController extends Controller
                 'attendence_id' => $request->id,
                 'status' => $request->type,
                 'teacher_id' => $teacher->id,
-                'teacher_number' => $request->teacher_number
+                'teacher_number' => $request->teacher_number,
+                'from' => $request->from,
+                'to' => $request->to,
             ]);
         }
 

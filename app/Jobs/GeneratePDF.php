@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Employee;
 use App\Models\EmployeeAbsence;
+use App\Models\Teacher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,14 +33,14 @@ class GeneratePDF implements ShouldQueue
     public function handle()
     {
         $pdf = PDF::loadView("Messages.{$this->data['type']}", $this->data);
-        $pdfPath = "pdfs/{$this->data['employee_name']}/" . now()->format('d-m-Y') . '-' . uniqid() . '.pdf';
+        $pdfPath = "pdfs/{$this->data['person_type']}/{$this->data['employee_name']}/" . now()->format('d-m-Y') . '-' . uniqid() . '.pdf';
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
         $path = Storage::disk('public')->url($pdfPath);
         //$employeeAbsence = EmployeeAbsence::where('employee_id', $this->data['employee_id'])->first();
-        $employee = Employee::where('id', $this->data['employee_id'])->first();
+        $person = $this->data['person_type'] == 'teacher' ? Teacher::where('id', $this->data['employee_id'])->first() : Employee::where('id', $this->data['employee_id'])->first();
 
-        $employee->attachments()->create([
+        $person->attachments()->create([
             'pdf' => $path,
             'message_type' => $this->data['type'],
             'attachmentable_type' => $this->data['attachmentable_type'],

@@ -78,9 +78,11 @@ Route::group([
         'prefix' => '/messages',
         'as' => 'messages.'
     ], function () {
+        Route::get('/teacher/messages/{id}', [MessagesController::class, 'teacherMessages'])->name('teacher');
         Route::post('/teacher/notify/{id}', [MessagesController::class, 'notifyTeacher'])->name('notifyTeacher');
         Route::post('/teacher/decide/{id}', [MessagesController::class, 'notifyTeacher'])->name('decideTeacher');
         Route::post('/teacher/account/{id}', [MessagesController::class, 'notifyTeacher'])->name('accountTeacher');
+        Route::post('/teacher/replyToEmail/{id}', [MessagesController::class, 'replyToEmail'])->name('replyToEmail');
 
         Route::get('/employee/messages/{id}', [MessagesController::class, 'employeeMessages'])->name('employee');
         Route::post('/employee/notify/{id}', [MessagesController::class, 'notifyEmployee'])->name('notifyEmployee');

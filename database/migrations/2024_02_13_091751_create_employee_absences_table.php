@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
             $table->string('employee_number');
             $table->enum('status', ['absent', 'late', 'attend']);
+            $table->time('from')->nullable();
+            $table->time('to')->nullable();
             $table->boolean('is_replied')->default(0);
             $table->timestamps();
         });

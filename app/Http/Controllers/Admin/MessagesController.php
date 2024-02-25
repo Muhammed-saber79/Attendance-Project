@@ -26,44 +26,34 @@ class MessagesController extends Controller
     public function notifyTeacher(Request $request, $id)
     {
         $teacher = Teacher::findOrFail($id);
-
         $validatedData = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
             'type' => 'required|in:accountability,notification,decision',
         ]);
 
         DB::beginTransaction();
         try {
             $message = new Messages();
-            $message->title = $validatedData['title'];
-            $message->description = $validatedData['description'];
+            $message->title = $validatedData['title'] ?? '';
+            $message->description = $validatedData['description'] ?? '';
             $message->type = $validatedData['type'];
             $message->messageable_type = "App\\Models\\Teacher";
             $message->messageable_id = $teacher->id;
             $message->save();
-
             Absence::where('teacher_id', $teacher->id)->update([
                 'is_replied' => 1
             ]);
-
-            // Mail Service
-            if (!$teacher->email) {
-                return redirect()->back()->with('error', 'لا يوجد بريد الكتروني خاص بهذا المدرب, يرجى تحديث بياناته للتمكن من ارسال الاشعارات!');
-            }
-            $data = [
-                'email' => $teacher->email,
-                'title' => $request->title,
-                'description' => $request->description,
-                'type'=>$request->type,
-            ];
-
-            $result = $this->emailService->sendReplyEmail($data);
-            if (! $result['status'] ) {
-                return redirect()->back()->with('error', 'حدث خطأ اثناء ارسال الرد. يمكنك المحاولة مجددا.');
-            }
-
             DB::commit();
+
+            $data = [
+                'person_type' => 'teacher',
+                'employee_id' => $teacher->id,
+                'employee_name' => $teacher->name,
+                'type' => $validatedData['type'],
+                'attachmentable_type' => "App\\Models\\Employee",
+                'attachmentable_id' => $teacher->id,
+            ];
+            GeneratePDF::dispatch($data)->onQueue('pdf-generation');
+
             return redirect()->back()->with('success', 'تم الإرسال بنجاح');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -94,6 +84,7 @@ class MessagesController extends Controller
             DB::commit();
 
             $data = [
+                'person_type' => 'employee',
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'type' => $validatedData['type'],
@@ -119,6 +110,10 @@ class MessagesController extends Controller
             'pdf' => ['nullable'],
             'type' => 'required|in:accountability,notification,decision',
         ]);
+
+        if (!$employee->email) {
+            return redirect()->back()->with('error', 'لا يوجد بريد الكتروني خاص بهذا الموظف, يرجى تحديث بياناته للتمكن من ارسال الاشعارات!');
+        }
 
         try {
             Messages::create([
@@ -161,5 +156,13 @@ class MessagesController extends Controller
         $attachments = $employee->attachments;
 
         return view('Admin.Employees.Messages.index', compact('attachments'));
+    }
+
+    public function teacherMessages($id)
+    {
+        $teacher = Teacher::findOrFail($id);
+        $attachments = $teacher->attachments;
+
+        return view('Admin.teachers.Messages.index', compact('attachments'));
     }
 }

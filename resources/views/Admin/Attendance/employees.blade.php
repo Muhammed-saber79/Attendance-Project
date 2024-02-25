@@ -44,12 +44,12 @@
                                             <td>
                                                 <img src="{{ @$employee->getFirstMediaUrl('image', 'thumb') }}" width="75px" alt="صورة الموظف">
                                             </td>
-                                            <td>
+                                            <td id="parent-{{ @$employee->id }}">
                                                 <button {{$value}} onclick="change_status(this)" class="btn btn-sm btn-success change_status" data-type="attend" data-employee_number="{{ @$employee->number }}" data-id="{{ @$employee->id }}">حضور</button>
-{{--                                                <button {{$value}} onclick="change_status(this)" class="btn btn-sm btn-warning change_status" data-type="late" data-employee_number="{{ @$employee->number }}" data-id="{{ @$employee->id }}">تاخير</button>--}}
+                                                {{-- <button {{$value}} onclick="change_status(this)" class="btn btn-sm btn-warning change_status" data-type="late" data-employee_number="{{ @$employee->number }}" data-id="{{ @$employee->id }}">تاخير</button>--}}
                                                 <button {{$value}} onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absent" data-employee_number="{{ @$employee->number }}" data-id="{{ @$employee->id }}">غياب</button>
 
-                                                <button {{$value}} class="btn btn-sm btn-warning change_status_modal" data-toggle="modal" data-target="#statusChangeModal-{{ @$employee->id }}" data-type="late" data-element_id="change_status_modal_{{ @$employee->id }}" data-employee_number="{{ @$employee->number }}" data-id="{{ @$employee->id }}">تاخير</button>
+                                                <button {{$value}} class="btn btn-sm btn-warning" data-toggle="modal" data-target="#statusChangeModal-{{ @$employee->id }}">تاخير</button>
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="statusChangeModal-{{ @$employee->id }}" tabindex="-1" role="dialog" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -61,12 +61,23 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form id="statusChangeForm">
+                                                                <form id="statusChangeForm-{{ @$employee->id }}" onsubmit="submitForm(this, event)">
                                                                     <!-- Hidden inputs to hold employee data -->
-                                                                    <input type="hidden" name="employee_number" id="employee_number">
-                                                                    <input type="hidden" name="id" id="employee_id">
-                                                                    <input type="hidden" name="type" id="type">
-                                                                    <input type="hidden" name="elementId" id="elementId">
+                                                                    <input type="hidden" name="employee_number" id="employee_number" value="{{ @$employee->number }}">
+                                                                    <input type="hidden" name="id" id="employee_id" value="{{ @$employee->id }}">
+                                                                    <input type="hidden" name="type" id="type" value="late">
+                                                                    <input type="hidden" name="elementId" id="elementId" value="parent-{{ @$employee->id }}">
+                                                                    <input type="hidden" name="modalId" id="modalId" value="statusChangeModal-{{ @$employee->id }}">
+
+                                                                    <div class="form-group">
+                                                                        <label for="fromTime">بداية من الساعة: </label>
+                                                                        <input oninput="limitTimeRange(this, '{{ "statusChangeForm-" . @$employee->id }}')" type="time" name="fromTime" id="fromTime" class="form-control"  min="00:00" max="23:59" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="toTime">إلى الساعة: </label>
+                                                                        <input type="time" name="toTime" id="toTime" class="form-control" max="23:59" required>
+                                                                    </div>
 
                                                                     <button type="submit" class="btn btn-primary">حفظ</button>
                                                                 </form>
@@ -243,6 +254,9 @@
         let dataId = formData.id;
         let employee_number = formData.employee_number;
         let element_id = formData.elementId;
+        let modalId = formData.modalId;
+        let from = formData.fromTime;
+        let to = formData.toTime;
 
         $.ajax({
             type: 'GET',
@@ -250,47 +264,34 @@
             data: {
                 type: dataType,
                 id: dataId,
-                employee_number: employee_number
+                employee_number: employee_number,
+                from: from,
+                to: to,
             },
             success: function(response) {
-                // Disable the button
-                $(`#${element_id}`).attr('disabled', 'disabled');
+                $(`#${element_id}`).find('button').attr('disabled', 'disabled');
+                $(`#${modalId}`).modal('hide');
                 toastr.success('', 'Success');
             },
-            // success: function(response) {
-            //     $(element).parent().find('button').attr('disabled', 'disabled');
-            //     toastr.success('', 'Success');
-            // },
             error: function(error) {
                 console.error(error);
             }
         });
     }
 
-    $(document).ready(function () {
-        // Populate modal with data when button is clicked
-        $('.change_status_modal').click(function () {
-            var employee_number = $(this).data('employee_number');
-            var id = $(this).data('id');
-            var type = $(this).data('type');
-            var elementId = $(this).data('element_id');
-            $('#employee_number').val(employee_number);
-            $('#employee_id').val(id);
-            $('#type').val(type);
-            $('#elementId').val(elementId);
+    function submitForm (element, event) {
+        event.preventDefault();
+        let formData = $(element).serializeArray(); // Serialize form data as an array
+        let formDataObject = {};
+        $.each(formData, function(index, field) {
+            formDataObject[field.name] = field.value;
         });
+        change_status_late(formDataObject);
+    }
 
-        // Handle form submission
-        $('#statusChangeForm').submit(function (event) {
-            event.preventDefault();
-            let formData = $(this).serializeArray(); // Serialize form data as an array
-            let formDataObject = {};
-            $.each(formData, function(index, field) {
-                formDataObject[field.name] = field.value;
-            });
-            console.log(formDataObject)
-            //change_status_late(formDataObject);
-        });
-    });
+    function limitTimeRange(element, formId) {
+        let timeValue = element.value;
+        $(`#${formId}`).find('#toTime').prop('min', timeValue);
+    }
 </script>
 @endsection

@@ -10,7 +10,7 @@ class EmployeeAbsence extends Model
     use HasFactory;
 
     protected $fillable = [
-        'employee_id', 'employee_number', 'status', 'is_replied'
+        'employee_id', 'employee_number', 'status', 'is_replied', 'from', 'to'
     ];
 
     public function employee()

@@ -191,7 +191,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -249,13 +248,6 @@
     </div>
   </div>
 </main> <!-- main -->
-
-<script>
-  function yassin() {
-    test()
-  }
-</script>
-
 @endsection
 
 @section('scripts')
@@ -342,6 +334,51 @@
         console.error(error);
       }
     });
+  }
+
+  function change_status_late(formData) {
+      let dataType = formData.type;
+      let dataId = formData.id;
+      let employee_number = formData.employee_number;
+      let element_id = formData.elementId;
+      let modalId = formData.modalId;
+      let from = formData.fromTime;
+      let to = formData.toTime;
+
+      $.ajax({
+          type: 'GET',
+          url: '/admin/change_status',
+          data: {
+              type: dataType,
+              id: dataId,
+              teacher_number: employee_number,
+              from: from,
+              to: to,
+          },
+          success: function(response) {
+              $(`#${element_id}`).find('button').attr('disabled', 'disabled');
+              $(`#${modalId}`).modal('hide');
+              toastr.success('', 'Success');
+          },
+          error: function(error) {
+              console.error(error);
+          }
+      });
+  }
+
+  function submitForm (element, event) {
+      event.preventDefault();
+      let formData = $(element).serializeArray(); // Serialize form data as an array
+      let formDataObject = {};
+      $.each(formData, function(index, field) {
+          formDataObject[field.name] = field.value;
+      });
+      change_status_late(formDataObject);
+  }
+
+  function limitTimeRange(element, formId) {
+      let timeValue = element.value;
+      $(`#${formId}`).find('#toTime').prop('min', timeValue);
   }
 </script>
 @endsection

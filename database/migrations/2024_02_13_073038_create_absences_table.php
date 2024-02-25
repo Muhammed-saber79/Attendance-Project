@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('teacher_id')->nullable();
             $table->integer('teacher_number')->nullable();
             $table->string('status');
+            $table->time('from')->nullable();
+            $table->time('to')->nullable();
             $table->boolean('is_replied')->default(0);
             $table->unsignedBigInteger('attendence_id')->nullable();
             $table->foreign('attendence_id')->references('id')->on('attendances')->cascadeOnDelete()->cascadeOnUpdate() ;
