@@ -30,6 +30,7 @@ class TeacherAttendenceController extends Controller
         ];
         $data = Attendance::where('day', $daysOfWeek[$today])->get();
 
+        //<button ' . $value . ' onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">تاخير</button>
         if ($request->ajax()) {
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -39,9 +40,8 @@ class TeacherAttendenceController extends Controller
                         $value = 'disabled';
                     }
                     $btn = '<button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-success change_status" data-type="attend" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">حضور</button>
-                            <button ' . $value . ' onclick="change_status(this)"  class="btn btn-sm btn-warning change_status" data-type="delay" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">تاخير</button>
                             <button ' . $value . ' onclick="change_status(this)" class="btn btn-sm btn-danger change_status" data-type="absense" data-teacher_number="' . $row->teacher_number . '" data-id="' . $row->id . '">غياب</button>
-                            <button ' . $value . ' class="btn btn-sm btn-warning" data-toggle="modal" data-target="#statusChangeModal-' . @$row->id . '">تاخير</button>
+                            <button ' . $value . ' class="btn btn-sm btn-warning change_status" id="csBtn-' . @$row->id . '" data-toggle="modal" data-target="#statusChangeModal-' . @$row->id . '">تاخير</button>
                             <div class="modal fade" id="statusChangeModal-' . @$row->id . '" tabindex="-1" role="dialog" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">

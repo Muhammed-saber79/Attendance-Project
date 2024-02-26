@@ -356,7 +356,7 @@
               to: to,
           },
           success: function(response) {
-              $(`#${element_id}`).find('button').attr('disabled', 'disabled');
+              $(`#csBtn-${dataId}`).parent().find('button').prop('disabled', true);
               $(`#${modalId}`).modal('hide');
               toastr.success('', 'Success');
           },

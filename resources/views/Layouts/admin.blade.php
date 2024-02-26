@@ -189,9 +189,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link pl-3" href="{{ route('admin.employees-absence.late') }}"><span class="ml-1 item-text">التأخير</span></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link pl-3" href=""><span class="ml-1 item-text">أرشيف المعاملات</span></a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a class="nav-link pl-3" href=""><span class="ml-1 item-text">أرشيف المعاملات</span></a>--}}
+{{--                                </li>--}}
                             </ul>
                         </li>
                         <!-- End Of Archive -->

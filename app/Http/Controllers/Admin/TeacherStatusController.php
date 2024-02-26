@@ -18,7 +18,7 @@ class TeacherStatusController extends Controller
     }
 
     public function delay(){
-        $delays = Absence::where('status','delay')->with('teacher','attendance')->get();
+        $delays = Absence::where('status','late')->with('teacher','attendance')->get();
         return view('Admin.teachers_status.delay',compact('delays'));
     }
 }

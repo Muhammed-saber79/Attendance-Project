@@ -42,6 +42,8 @@ Route::group([
     Route::resource('teacher_attendence',TeacherAttendenceController::class);
     Route::resource('teachers',TeachersController::class);
     Route::get('change_status',[TeacherAttendenceController::class,'change_status']);
+    Route::get('/absence/teachers', [HomeController::class, 'teachers']);
+    Route::get('/absence/employees', [HomeController::class, 'employees']);
 
     Route::group([
         'middleware' => ['role:Admin']

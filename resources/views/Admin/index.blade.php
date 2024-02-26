@@ -38,9 +38,9 @@
                                 <div class="card-body bg-danger">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="text-muted mb-1">غياب المدربين</small>
-                                            <h3 class="card-title mb-0">{{App\Models\Absence::where('status','absense')->count()}}</h3>
-                                           
+                                            <small class="text-muted mb-1">معاملات المدربين</small>
+                                            <h3 class="card-title mb-0">{{App\Models\Absence::count()}}</h3>
+
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlineline"></span>
@@ -55,9 +55,9 @@
                                 <div class="card-body bg-warning">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="mb-1">تاخير المتدربين</small>
-                                            <h3 class="card-title mb-0">{{App\Models\Absence::where('status','delay')->count()}}</h3>
-                                            
+                                            <small class="mb-1">معاملات الإداريين</small>
+                                            <h3 class="card-title mb-0">{{App\Models\EmployeeAbsence::count()}}</h3>
+
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlinepie"></span>
@@ -69,12 +69,12 @@
 
                         <div class="col-md-3">
                             <div class="card shadow mb-4">
-                                <div class="card-body bg-primary">
+                                <div class="card-body bg-primary-light">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="mb-1">  غياب الاداريين</small>
-                                            <h3 class="card-title mb-0">108</h3>
-                                            
+                                            <small class="mb-1"> اشعارات الحسم</small>
+                                            <h3 class="card-title mb-0">{{App\Models\Messages::where('type', 'notification')->count()}}</h3>
+
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlinebar"></span>
@@ -89,9 +89,9 @@
                                 <div class="card-body bg-info">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <small class="text-muted mb-1">تاخر الاداريين</small>
-                                            <h3 class="card-title mb-0">108</h3>
-                                            
+                                            <small class="mb-1"> قرارات الحسم</small>
+                                            <h3 class="card-title mb-0">{{App\Models\Messages::where('type', 'decision')->count()}}</h3>
+
                                         </div>
                                         <div class="col-4 text-right">
                                             <span class="sparkline inlinebar"></span>
@@ -100,11 +100,46 @@
                                 </div> <!-- /. card-body -->
                             </div> <!-- /. card -->
                         </div> <!-- /. col -->
-
-                 
-
-
                     </div> <!-- end section -->
+
+
+
+
+                    <div class="my-3 p-3 card shadow">
+                        <h3 class="my-3">أحدث الاحصائيات</h3>
+
+                        <div class="row my-4">
+                            <div class="col-md-6 mb-4">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <strong class="card-title mb-0">إحصائيات معاملات المدربين</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="pieChartjs" width="400" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <strong class="card-title mb-0">إحصائيات معاملات الاداريين</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="areaChartjs" width="400" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
                     <!-- linechart -->
                     <div class="my-4">
                         <div id="lineChart"></div>
@@ -112,134 +147,83 @@
 
                 </div> <!-- /.col -->
             </div> <!-- .row -->
+
+            <footer>
+                <div class="container bg-secondary-dark p-2">
+                    <div class="row d-flex justify-content-center">
+                        <div class="align-items-center">
+                            <h5> جميع الحقوق محفوظة &copy; 2024</h5>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
         </div> <!-- .container-fluid -->
-        <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="defaultModalLabel">Notifications</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="list-group list-group-flush my-n3">
-                            <div class="list-group-item bg-transparent">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="fe fe-box fe-24"></span>
-                                    </div>
-                                    <div class="col">
-                                        <small><strong>Package has uploaded successfull</strong></small>
-                                        <div class="my-0 text-muted small">Package is zipped and uploaded</div>
-                                        <small class="badge badge-pill badge-light text-muted">1m ago</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item bg-transparent">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="fe fe-download fe-24"></span>
-                                    </div>
-                                    <div class="col">
-                                        <small><strong>Widgets are updated successfull</strong></small>
-                                        <div class="my-0 text-muted small">Just create new layout Index, form, table
-                                        </div>
-                                        <small class="badge badge-pill badge-light text-muted">2m ago</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item bg-transparent">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="fe fe-inbox fe-24"></span>
-                                    </div>
-                                    <div class="col">
-                                        <small><strong>Notifications have been sent</strong></small>
-                                        <div class="my-0 text-muted small">Fusce dapibus, tellus ac cursus commodo</div>
-                                        <small class="badge badge-pill badge-light text-muted">30m ago</small>
-                                    </div>
-                                </div> <!-- / .row -->
-                            </div>
-                            <div class="list-group-item bg-transparent">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="fe fe-link fe-24"></span>
-                                    </div>
-                                    <div class="col">
-                                        <small><strong>Link was attached to menu</strong></small>
-                                        <div class="my-0 text-muted small">New layout has been attached to the menu
-                                        </div>
-                                        <small class="badge badge-pill badge-light text-muted">1h ago</small>
-                                    </div>
-                                </div>
-                            </div> <!-- / .row -->
-                        </div> <!-- / .list-group -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog"
-             aria-labelledby="defaultModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body px-5">
-                        <div class="row align-items-center">
-                            <div class="col-6 text-center">
-                                <div class="squircle bg-success justify-content-center">
-                                    <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                                </div>
-                                <p>Control area</p>
-                            </div>
-                            <div class="col-6 text-center">
-                                <div class="squircle bg-primary justify-content-center">
-                                    <i class="fe fe-activity fe-32 align-self-center text-white"></i>
-                                </div>
-                                <p>Activity</p>
-                            </div>
-                        </div>
-                        <div class="row align-items-center">
-                            <div class="col-6 text-center">
-                                <div class="squircle bg-primary justify-content-center">
-                                    <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                                </div>
-                                <p>Droplet</p>
-                            </div>
-                            <div class="col-6 text-center">
-                                <div class="squircle bg-primary justify-content-center">
-                                    <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                                </div>
-                                <p>Upload</p>
-                            </div>
-                        </div>
-                        <div class="row align-items-center">
-                            <div class="col-6 text-center">
-                                <div class="squircle bg-primary justify-content-center">
-                                    <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                                </div>
-                                <p>Users</p>
-                            </div>
-                            <div class="col-6 text-center">
-                                <div class="squircle bg-primary justify-content-center">
-                                    <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                                </div>
-                                <p>Settings</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main> <!-- main -->
+@endsection
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Function to fetch data from the backend and update the chart
+        function updateChart(chartId, url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const chart = new Chart(document.getElementById(chartId), {
+                        type: 'pie', // Change chart type as per your requirement
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Absence',
+                                data: data.values,
+                                backgroundColor: data.colors,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function updateChartLine(chartId, url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const chartData = {
+                        labels: data.labels,
+                        datasets: data.datasets.map(dataset => ({
+                            label: dataset.label,
+                            data: dataset.data,
+                            backgroundColor: dataset.backgroundColor,
+                            borderColor: dataset.borderColor,
+                            borderWidth: dataset.borderWidth,
+                            fill: dataset.fill,
+                        }))
+                    };
+
+                    const chartOptions = {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    };
+
+                    const chart = new Chart(document.getElementById(chartId), {
+                        type: 'line', // Change chart type as per your requirement
+                        data: chartData,
+                        options: chartOptions
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Call the function to update the charts
+        updateChart('pieChartjs', 'admin/absence/teachers');
+        updateChartLine('lineChart', 'admin/absence/employees');
+    </script>
 @endsection
